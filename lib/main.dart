@@ -11,8 +11,7 @@ class MyApp extends StatelessWidget {
       title: 'DeliMeals',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Meeles'),
-        ),
+          title: Text('Meeles')
       ),
     );
   }
