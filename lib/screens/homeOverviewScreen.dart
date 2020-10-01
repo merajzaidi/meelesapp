@@ -5,7 +5,17 @@ class HomepageOverviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Meeles'),
+        title: Text(
+          'Meeles',
+          style: const TextStyle(
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [],
+        ),
       ),
     );
   }
