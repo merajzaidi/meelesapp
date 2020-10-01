@@ -27,17 +27,17 @@ class _NavigationBarBottomState extends State<NavigationBarBottom> {
           ),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.search),
+          icon: Icon(Icons.assignment),
           title: Text(
-            'Search',
+            "Menu's",
             style: TextStyle(
                 fontFamily: 'Montserrat', fontWeight: FontWeight.w600),
           ),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
+          icon: Icon(Icons.book),
           title: Text(
-            'settings',
+            'Bookings',
             style: TextStyle(
                 fontFamily: 'Montserrat', fontWeight: FontWeight.w600),
           ),

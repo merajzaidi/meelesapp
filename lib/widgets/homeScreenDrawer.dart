@@ -22,9 +22,17 @@ class HomeScreenDrawer extends StatelessWidget {
               ),
             ),
             DrawerButtons(
-              buttonTitle: 'About us',
+              buttonTitle: "Create weekly menu's",
               buttonIcon: Icon(
                 Icons.assignment,
+                color: kwhiteAlternateColor,
+              ),
+              onPressed: () {},
+            ),
+            DrawerButtons(
+              buttonTitle: 'About us',
+              buttonIcon: Icon(
+                Icons.business_center,
                 color: kwhiteAlternateColor,
               ),
               onPressed: () {},

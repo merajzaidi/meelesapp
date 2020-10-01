@@ -16,7 +16,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light().copyWith(
         primaryColor: kprimaryColor,
         appBarTheme: AppBarTheme(
-            centerTitle: true, elevation: 3.0, textTheme: ktextTheme),
+          centerTitle: true,
+          elevation: 3.0,
+          textTheme: ktextTheme,
+        ),
       ),
       home: HomepageOverviewScreen(),
     );
