@@ -1,11 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:meeles/constants/colorConstants.dart';
+import '../widgets/bottomNavigationBarHomePage.dart';
+import '../widgets/homeScreenDrawer.dart';
+import '../models/messDetails.dart';
 
 class HomepageOverviewScreen extends StatelessWidget {
+  void handleClick(String value) {
+    switch (value) {
+      case 'Logout':
+        break;
+      case 'Settings':
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actionsIconTheme: IconThemeData(
+          color: kwhiteAlternateColor,
+        ),
+        actions: <Widget>[
+          PopupMenuButton<String>(
+            onSelected: handleClick,
+            itemBuilder: (BuildContext context) {
+              return {'Logout', 'Settings'}.map((String choice) {
+                return PopupMenuItem<String>(
+                  value: choice,
+                  child: Text(choice),
+                );
+              }).toList();
+            },
+          ),
+        ],
         title: Text(
           'Meeles',
           style: const TextStyle(
@@ -13,48 +41,11 @@ class HomepageOverviewScreen extends StatelessWidget {
           ),
         ),
       ),
-      drawer: Drawer(
-        child: Container(
-          color: kprimaryColor,
-          child: ListView(
-            // padding: const EdgeInsets.fromLTRB(10.0, 50.0, 10.0, 20.0),
-            children: [
-              UserAccountsDrawerHeader(
-                accountName: Text(
-                  'Praveen Kumar',
-                  style: const TextStyle(
-                      color: Color(0xff213e3b),
-                      fontSize: 18.0,
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w500),
-                ),
-                accountEmail: Text(
-                  'kpravin627@gmail.com',
-                  style: const TextStyle(
-                      color: Color(0xff213e3b),
-                      fontSize: 14.0,
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w300),
-                ),
-                currentAccountPicture: GestureDetector(
-                  onTap: () {
-                    print('pressed');
-                  },
-                  child: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      'https://png.pngtree.com/png-vector/20190827/ourlarge/pngtree-avatar-png-image_1700114.jpg',
-                    ),
-                  ),
-                ),
-                decoration: BoxDecoration(
-                  color: Color(0xfffff0f0),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-      // body:
+      drawer: HomeScreenDrawer(),
+      bottomNavigationBar: NavigationBarBottom(),
+      //  body: Form(
+      //    child: FormFiels,
+      //  ),
     );
   }
 }
