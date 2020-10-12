@@ -21,13 +21,12 @@ class AuthScreen extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [
+                List: [
                   Color.fromRGBO(215, 117, 255, 1).withOpacity(0.5),
                   Color.fromRGBO(255, 188, 117, 1).withOpacity(0.9),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                stops: [0, 1],
               ),
             ),
           ),
@@ -61,6 +60,7 @@ class AuthScreen extends StatelessWidget {
                       child: Text(
                         'Meales',
                         style: TextStyle(
+                          // ignore: deprecated_member_use
                           color: Theme.of(context).accentTextTheme.title.color,
                           fontSize: 50,
                           fontFamily: 'Anton',
