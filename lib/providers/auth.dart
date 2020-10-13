@@ -149,9 +149,9 @@ class Auth with ChangeNotifier {
     print(data2);
     await FirebaseFirestore.instance
         .collection('MessDetails')
-        .doc(data2['shop_name'])
-        .collection('Landmark')
-        .doc('good')
+        .doc(data2['Landmark'])
+        .collection(data2['shop_name'])
+        .doc('Details')
         .set({
       'Shop Name': data2['shop_name'],
       'Address': data2['address'],

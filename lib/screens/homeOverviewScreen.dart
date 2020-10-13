@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meeles/constants/colorConstants.dart';
+import 'package:meeles/providers/screen.dart';
+import 'package:provider/provider.dart';
 import '../widgets/bottomNavigationBarHomePage.dart';
 import '../widgets/homeScreenDrawer.dart';
 import '../models/messDetails.dart';
@@ -16,6 +18,7 @@ class HomepageOverviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String titlename = Provider.of<Screen>(context).gettitle;
     return Scaffold(
       appBar: AppBar(
         actionsIconTheme: IconThemeData(
@@ -35,7 +38,7 @@ class HomepageOverviewScreen extends StatelessWidget {
           ),
         ],
         title: Text(
-          'Meeles',
+          titlename,
           style: const TextStyle(
             fontWeight: FontWeight.w700,
           ),
@@ -43,9 +46,9 @@ class HomepageOverviewScreen extends StatelessWidget {
       ),
       drawer: HomeScreenDrawer(),
       bottomNavigationBar: NavigationBarBottom(),
-      //  body: Form(
-      //    child: FormFiels,
-      //  ),
+      body: Consumer<Screen>(
+        builder: (context, ss, _) => ss.page,
+      ),
     );
   }
 }

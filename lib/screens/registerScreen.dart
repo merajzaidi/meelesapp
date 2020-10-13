@@ -17,6 +17,17 @@ class _RegistrationState extends State<Registration> {
   @override
   Widget build(BuildContext context) {
     final _formkey = GlobalKey<FormState>();
+    // final nodes = [
+    //   FocusNode(),
+    //   FocusNode(),
+    //   FocusNode(),
+    //   FocusNode(),
+    //   FocusNode(),
+    //   FocusNode(),
+    //   FocusNode(),
+    //   FocusNode(),
+    //   FocusNode(),
+    // ];
     Map<String, dynamic> _initialdata = {
       //'image_url': '',
       'shop_name': '',
@@ -49,27 +60,19 @@ class _RegistrationState extends State<Registration> {
     }
 
     Future<void> submit() async {
-      if (_formkey.currentState.validate())
+      if (!_formkey.currentState.validate())
         print('invalid');
-      else
+      else {
         _formkey.currentState.save();
-      print(_initialdata);
-      final issaved =
-          await Provider.of<Auth>(context, listen: false).addinfo(_initialdata);
-      print(issaved);
+        print(_initialdata);
+        final issaved = await Provider.of<Auth>(context, listen: false)
+            .addinfo(_initialdata);
+        print(issaved);
+      }
     }
 
     return Scaffold(
       backgroundColor: kwhiteAlternateColor,
-      appBar: AppBar(
-        title: Text(
-          'Registration',
-          style: const TextStyle(
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
-      drawer: HomeScreenDrawer(),
       body: Container(
         padding: EdgeInsets.all(20),
         child: SingleChildScrollView(
@@ -102,6 +105,7 @@ class _RegistrationState extends State<Registration> {
                   },
                   onSaved: (val) {
                     _initialdata['shop_name'] = val;
+                    print(_initialdata['shop_name']);
                   },
                 ),
                 SizedBox(
@@ -109,6 +113,7 @@ class _RegistrationState extends State<Registration> {
                 ),
                 TextFormField(
                   initialValue: _initialdata['address'],
+                  //focusNode: nodes[0],
                   decoration: InputDecoration(
                     labelText: 'Address',
                     icon: Icon(Icons.add_location_sharp),
@@ -118,7 +123,9 @@ class _RegistrationState extends State<Registration> {
                     if (value.isEmpty) return 'Required';
                   },
                   onSaved: (val) {
+                    print(val);
                     _initialdata['address'] = val;
+                    print(_initialdata['address']);
                   },
                 ),
                 SizedBox(
@@ -126,6 +133,7 @@ class _RegistrationState extends State<Registration> {
                 ),
                 TextFormField(
                   initialValue: _initialdata['Landmark'],
+                  //focusNode: nodes[1],
                   decoration: InputDecoration(
                     labelText: 'Landmark',
                     icon: Icon(Icons.place),
@@ -143,6 +151,7 @@ class _RegistrationState extends State<Registration> {
                 ),
                 TextFormField(
                   initialValue: _initialdata['fssai'],
+                  //focusNode: nodes[3],
                   decoration: InputDecoration(
                     labelText: 'FSSAI No.',
                     icon: Icon(Icons.confirmation_num),
@@ -165,6 +174,7 @@ class _RegistrationState extends State<Registration> {
                     icon: Icon(Icons.format_list_numbered_outlined),
                     border: OutlineInputBorder(),
                   ),
+                  //focusNode: nodes[4],
                   validator: (value) {
                     if (value.isEmpty) return 'Required';
                   },
@@ -185,6 +195,7 @@ class _RegistrationState extends State<Registration> {
                   validator: (value) {
                     if (value.isEmpty) return 'Required';
                   },
+                  //focusNode: nodes[5],
                   onSaved: (val) {
                     _initialdata['capacity'] = val;
                   },
@@ -195,6 +206,7 @@ class _RegistrationState extends State<Registration> {
                 TextFormField(
                   initialValue: _initialdata['phone'],
                   maxLength: 10,
+                  //focusNode: nodes[6],
                   decoration: InputDecoration(
                     labelText: 'Phone No.',
                     icon: Icon(Icons.phone),
@@ -214,6 +226,7 @@ class _RegistrationState extends State<Registration> {
                   children: <Widget>[
                     Text('Whole day Open'),
                     Switch(
+                      //focusNode: nodes[7],
                       value: _isopen,
                       onChanged: (_) {
                         setState(() {
@@ -223,6 +236,7 @@ class _RegistrationState extends State<Registration> {
                     ),
                     Text('Monthly Subscribtion'),
                     Switch(
+                      //focusNode: nodes[8],
                       value: _ismonthly,
                       onChanged: (_) {
                         setState(() {

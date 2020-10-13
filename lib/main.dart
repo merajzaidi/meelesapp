@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
-            title: 'Meeles',
+            //title: 'Meeles',
             theme: ThemeData.light().copyWith(
               primaryColor: kprimaryColor,
               appBarTheme: AppBarTheme(
@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
             //         return Registration();
             //       }
             //       return AuthScreen();
-            home: auth.isAuth ? Registration() : AuthScreen(),
+            home: auth.isAuth ? HomepageOverviewScreen() : AuthScreen(),
             routes: {}),
       ),
     );

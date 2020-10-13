@@ -54,10 +54,10 @@ class _NavigationBarBottomState extends State<NavigationBarBottom> {
         ),
       ],
       onTap: (index) {
+        Provider.of<Screen>(context, listen: false).getindex(index);
         setState(() {
           _currentIndex = index;
         });
-        Provider.of(context, listen: false).getIndex(_currentIndex);
       },
     );
   }

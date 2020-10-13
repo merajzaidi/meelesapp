@@ -12,6 +12,7 @@ class Screen with ChangeNotifier {
   Future<void> getindex(int catchindex) {
     index = catchindex;
     print(index);
+    notifyListeners();
     return null;
   }
 
@@ -24,5 +25,16 @@ class Screen with ChangeNotifier {
       return BookingView();
     else
       return ProfileView();
+  }
+
+  String get gettitle {
+    if (index == 0)
+      return 'Registration';
+    else if (index == 1)
+      return 'Menu DashBoard';
+    else if (index == 2)
+      return 'Booking Details';
+    else
+      return 'Profile';
   }
 }
