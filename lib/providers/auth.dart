@@ -149,9 +149,24 @@ class Auth with ChangeNotifier {
     print(data2);
     await FirebaseFirestore.instance
         .collection('MessDetails')
-        .doc(authresult.user.uid)
+        .doc(data2['shop_name'])
+        .collection('Landmark')
+        .doc('good')
         .set({
-      'shop_name': data2['shop_name'],
+      'Shop Name': data2['shop_name'],
+      'Address': data2['address'],
+      'Landmark': data2['Landmark'],
+      'FSSAI NO': data2['fssai'],
+      'GST NO.': data2['gst'],
+      'Capacity': data2['capacity'],
+      'Phone no.': data2['phone'],
+      'Email': authresult.user.email,
+      'Open Whole Day': data2['openwholeday'],
+      'Monthly Subscription': data2['monthly'],
+      'Lunch Begining': data2['lunch_start'],
+      'Lunch End': data2['lunch_end'],
+      'Dinner Starting': data2['dinner_start'],
+      'Dinner End': data2['dinner_end'],
     }).then((_) {
       return true;
     }).catchError((error) {

@@ -49,10 +49,10 @@ class _RegistrationState extends State<Registration> {
     }
 
     Future<void> submit() async {
-      // if (_formkey.currentState.validate())
-      //   return;
-      // else
-      _formkey.currentState.save();
+      if (_formkey.currentState.validate())
+        print('invalid');
+      else
+        _formkey.currentState.save();
       print(_initialdata);
       final issaved =
           await Provider.of<Auth>(context, listen: false).addinfo(_initialdata);
