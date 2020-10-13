@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import '../constants/colorConstants.dart';
 import 'package:provider/provider.dart';
+import '../providers/auth.dart';
 
 enum AuthMode {
   Login,
@@ -31,13 +32,17 @@ class _AuthScreenState extends State<AuthScreen> {
     });
     try {
       if (_authmode == AuthMode.Login) {
-        authresult = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: email, password: password);
-        print(authresult);
-        //Provider.of(context, listen: false)._authentication()
+        // authresult = await FirebaseAuth.instance
+        //     .signInWithEmailAndPassword(email: email, password: password);
+        // Provider.of(context, listen: false).data(authresult);
+        await Provider.of<Auth>(context, listen: false)
+            .authlogin(email, password);
       } else {
-        authresult = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email, password: password);
+        // authresult = await FirebaseAuth.instance
+        //     .createUserWithEmailAndPassword(email: email, password: password);
+        // Provider.of(context, listen: false).data(authresult);
+        await Provider.of<Auth>(context, listen: false)
+            .authsignup(email, password);
       }
     } on PlatformException catch (err) {
       var message = "An Error occured, Please Check your Credentials";

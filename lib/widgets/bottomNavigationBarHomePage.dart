@@ -1,5 +1,7 @@
 import '../constants/colorConstants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/screen.dart';
 
 class NavigationBarBottom extends StatefulWidget {
   @override
@@ -55,6 +57,7 @@ class _NavigationBarBottomState extends State<NavigationBarBottom> {
         setState(() {
           _currentIndex = index;
         });
+        Provider.of(context, listen: false).getIndex(_currentIndex);
       },
     );
   }

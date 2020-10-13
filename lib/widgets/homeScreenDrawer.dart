@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../constants/colorConstants.dart';
 import '../components/userProfileSectionDrawer.dart';
 import '../components/drawerInkwellButtons.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import '../providers/auth.dart';
 
 class HomeScreenDrawer extends StatelessWidget {
   @override
@@ -21,6 +22,14 @@ class HomeScreenDrawer extends StatelessWidget {
                   color: kwhiteAlternateColor,
                 ),
               ),
+            ),
+            DrawerButtons(
+              buttonTitle: "Register your Shop",
+              buttonIcon: Icon(
+                Icons.assignment,
+                color: kwhiteAlternateColor,
+              ),
+              onPressed: () {},
             ),
             DrawerButtons(
               buttonTitle: "Create weekly menu's",
@@ -63,7 +72,7 @@ class HomeScreenDrawer extends StatelessWidget {
                 onPressed: () async {
                   Navigator.of(context).pop();
                   Navigator.of(context).pushReplacementNamed('/');
-                  await FirebaseAuth.instance.signOut();
+                  await Provider.of<Auth>(context, listen: false).authlogout();
                 }),
           ],
         ),
