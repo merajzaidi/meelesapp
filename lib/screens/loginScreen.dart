@@ -21,13 +21,12 @@ class AuthScreen extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [
+                List: [
                   Color.fromRGBO(215, 117, 255, 1).withOpacity(0.5),
                   Color.fromRGBO(255, 188, 117, 1).withOpacity(0.9),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                stops: [0, 1],
               ),
             ),
           ),
@@ -61,6 +60,7 @@ class AuthScreen extends StatelessWidget {
                       child: Text(
                         'Meales',
                         style: TextStyle(
+                          // ignore: deprecated_member_use
                           color: Theme.of(context).accentTextTheme.title.color,
                           fontSize: 50,
                           fontFamily: 'Anton',
@@ -132,16 +132,16 @@ class _AuthCardState extends State<AuthCard> {
     try {
       if (_authMode == AuthMode.Login) {
         // Log user in
-        await Provider.of<Auth>(context, listen: false).login(
-          _authData['email'],
-          _authData['password'],
-        );
+        // await Provider.of<Auth>(context, listen: false).login(
+        //   _authData['email'],
+        //   _authData['password'],
+        // );
       } else {
         // Sign user up
-        await Provider.of<Auth>(context, listen: false).signup(
-          _authData['email'],
-          _authData['password'],
-        );
+        // await Provider.of<Auth>(context, listen: false).signup(
+        //   _authData['email'],
+        //   _authData['password'],
+        // );
       }
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
