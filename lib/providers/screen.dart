@@ -11,30 +11,29 @@ class Screen with ChangeNotifier {
 
   Future<void> getindex(int catchindex) {
     index = catchindex;
-    print(index);
     notifyListeners();
     return null;
   }
 
   Widget get page {
-    if (index == 0)
-      return Registration();
+    if (index == 3)
+      return ProfileView();
     else if (index == 1)
       return WeeklyMenuOverviewScreen();
     else if (index == 2)
       return BookingView();
     else
-      return ProfileView();
+      return Registration();
   }
 
   String get gettitle {
-    if (index == 0)
-      return 'Registration';
+    if (index == 3)
+      return 'Profile';
     else if (index == 1)
       return 'Menu DashBoard';
     else if (index == 2)
       return 'Booking Details';
     else
-      return 'Profile';
+      return 'Registration';
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:async';
+import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
@@ -31,7 +32,7 @@ import 'package:flutter/foundation.dart';
 //   Future<void> _authenticate(
 //       String email, String password, String urlSegment) async {
 //     final url =
-//         'https://identitytoolkit.googleapis.com/v1/accounts:$urlSegment?key=AIzaSyBqa6STo3hwBgx7kahkPT0QVYOHAXcCnqA';
+//         'https://tytoolkit.googleapis.com/v1/accounts:$urlSegment?key=AIzaSyBqa6STo3hwBgx7kahkPT0QVYOHAXcCnqA';
 //     try {
 //       final response = await http.post(
 //         url,
@@ -122,7 +123,8 @@ import 'package:flutter/foundation.dart';
 // }
 class Auth with ChangeNotifier {
   UserCredential authresult;
-  Map<String, String> data;
+  Map<String, dynamic> data;
+  var user = FirebaseAuth.instance.currentUser;
   FirebaseAuth auth = FirebaseAuth.instance;
   Future<void> authlogin(String email, String password) async {
     // print(authresult);
@@ -146,11 +148,13 @@ class Auth with ChangeNotifier {
   }
 
   Future<bool> addinfo(data2) async {
-    print(data2);
+    data = data2;
+    print(data);
+    user.updateProfile(displayName: data2['Landmark']);
     await FirebaseFirestore.instance
         .collection('MessDetails')
         .doc(data2['Landmark'])
-        .collection(data2['shop_name'])
+        .collection(auth.currentUser.uid)
         .doc('Details')
         .set({
       'Shop Name': data2['shop_name'],
@@ -184,12 +188,16 @@ class Auth with ChangeNotifier {
   }
 
   bool get registerdata {
+    print(auth.currentUser.displayName);
     FirebaseFirestore.instance
         .collection('MessDetails')
-        .doc(authresult.user.uid)
+        .doc(auth.currentUser.displayName)
+        .collection(auth.currentUser.uid)
+        .doc('Details')
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
+        data = documentSnapshot.data();
         return true;
       } else
         return false;

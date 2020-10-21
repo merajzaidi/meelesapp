@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meeles/providers/screen.dart';
 import 'package:meeles/screens/registerScreen.dart';
+import 'package:meeles/screens/updatemenu_screen.dart';
 import 'package:provider/provider.dart';
 import './screens/homeOverviewScreen.dart';
 import './constants/colorConstants.dart';
@@ -9,6 +10,8 @@ import './screens/auth_screen.dart';
 import './providers/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import './providers/auth.dart';
+import './screens/updatemenu_screen.dart';
+import './providers/menu.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +22,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // return MultiProvider(
+    // return MultiProvider(The getter 'user' was called on null.
     //   providers: [
     //     ChangeNotifierProvider.value(
     //       value: Auth(),
@@ -49,10 +52,16 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => Auth(),
         ),
-        ChangeNotifierProvider(create: (_) => Screen())
+        ChangeNotifierProvider(
+          create: (_) => Screen(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => Menu(),
+        ),
       ],
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
+            debugShowCheckedModeBanner: false,
             //title: 'Meeles',
             theme: ThemeData.light().copyWith(
               primaryColor: kprimaryColor,
@@ -67,7 +76,9 @@ class MyApp extends StatelessWidget {
             //       }
             //       return AuthScreen();
             home: auth.isAuth ? HomepageOverviewScreen() : AuthScreen(),
-            routes: {}),
+            routes: {
+              Updatemenu.routeName: (ctx) => Updatemenu(),
+            }),
       ),
     );
   }

@@ -64,7 +64,6 @@ class _RegistrationState extends State<Registration> {
         print('invalid');
       else {
         _formkey.currentState.save();
-        print(_initialdata);
         final issaved = await Provider.of<Auth>(context, listen: false)
             .addinfo(_initialdata);
         print(issaved);
