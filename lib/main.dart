@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meeles/providers/screen.dart';
-import 'package:meeles/screens/registerScreen.dart';
+import 'package:meeles/screens/menuview_screen.dart';
 import 'package:meeles/screens/updatemenu_screen.dart';
 import 'package:provider/provider.dart';
 import './screens/homeOverviewScreen.dart';
@@ -9,9 +9,9 @@ import 'constants/textThemeConstants.dart';
 import './screens/auth_screen.dart';
 import './providers/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import './providers/auth.dart';
 import './screens/updatemenu_screen.dart';
 import './providers/menu.dart';
+import './screens/menuview_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -78,6 +78,7 @@ class MyApp extends StatelessWidget {
             home: auth.isAuth ? HomepageOverviewScreen() : AuthScreen(),
             routes: {
               Updatemenu.routeName: (ctx) => Updatemenu(),
+              CardVariant.routeName: (ctx) => CardVariant(),
             }),
       ),
     );

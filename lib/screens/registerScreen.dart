@@ -47,7 +47,6 @@ class _RegistrationState extends State<Registration> {
     bool _isopen = false;
     bool _ismonthly = false;
     File pickedimage;
-
     void _pickImage() async {
       final pickedImageFile = await ImagePicker().getImage(
         source: ImageSource.camera,
@@ -66,7 +65,6 @@ class _RegistrationState extends State<Registration> {
         _formkey.currentState.save();
         final issaved = await Provider.of<Auth>(context, listen: false)
             .addinfo(_initialdata);
-        print(issaved);
       }
     }
 
@@ -79,19 +77,21 @@ class _RegistrationState extends State<Registration> {
             key: _formkey,
             child: Column(
               children: <Widget>[
-                // CircleAvatar(
-                //   radius: 40,
-                //   backgroundColor: Colors.grey,
-                //   backgroundImage: pickedimage != null
-                //       ? (Image.file(pickedimage)).image
-                //       : null,
-                // ),
-                // FlatButton.icon(
-                //   onPressed: _pickImage,
-                //   textColor: Theme.of(context).primaryColor,
-                //   icon: Icon(Icons.image),
-                //   label: Text('Shop Photo'),
-                // ),
+                pickedimage != null
+                    ? CircleAvatar(
+                        radius: 40,
+                        child: Image.file(pickedimage),
+                      )
+                    : CircleAvatar(
+                        radius: 40,
+                        child: Text('d'),
+                      ),
+                FlatButton.icon(
+                  onPressed: _pickImage,
+                  textColor: Theme.of(context).primaryColor,
+                  icon: Icon(Icons.image),
+                  label: Text('Shop Photo'),
+                ),
                 TextFormField(
                   initialValue: _initialdata['shop_name'],
                   decoration: InputDecoration(

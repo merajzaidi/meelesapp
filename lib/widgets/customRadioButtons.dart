@@ -31,7 +31,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             value: SingingCharacter.lunch,
             groupValue: _character,
             onChanged: (SingingCharacter value) {
-              Provider.of<Menu>(context, listen: false).timing('Lunch');
+              Provider.of<Menu>(context, listen: false).timing('Dinner');
               setState(() {
                 _character = value;
               });
@@ -52,7 +52,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             value: SingingCharacter.dinner,
             groupValue: _character,
             onChanged: (SingingCharacter value) {
-              Provider.of<Menu>(context, listen: false).timing('Dinner');
+              Provider.of<Menu>(context, listen: false).timing('Lunch');
               setState(() {
                 _character = value;
               });

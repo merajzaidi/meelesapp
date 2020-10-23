@@ -42,16 +42,18 @@ class Menu with ChangeNotifier {
   String mealtype = 'Veg';
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore menuObject = FirebaseFirestore.instance;
+  CollectionReference getmenu = FirebaseFirestore.instance
+      .collection('MessDetails')
+      .doc(FirebaseAuth.instance.currentUser.displayName)
+      .collection(FirebaseAuth.instance.currentUser.uid);
   //Map<String, dynamic> messname = Auth().data;
   Future<void> dayweek(String dayy) {
     weekday = dayy;
-    notifyListeners();
     return null;
   }
 
   Future<void> timing(String time) {
     mealtime = time;
-    notifyListeners();
     return null;
   }
 
@@ -78,6 +80,7 @@ class Menu with ChangeNotifier {
       'Rice Type': data['rice'],
       'Desert': data['desert'],
       'Price': data['price'],
+      'type': mealtime,
     }).then((_) {
       return true;
     }).catchError((e) {
@@ -87,20 +90,27 @@ class Menu with ChangeNotifier {
     return true;
   }
 
-  get lunch {
-    menuObject
-        .collection('MessDetails')
-        .doc(auth.currentUser.displayName)
-        .collection(auth.currentUser.uid)
-        .doc('Menu')
-        .collection(weekday)
-        .doc(mealtime)
-        .get()
-        .then((DocumentSnapshot document) {
-      if (document.exists) {
-        return document.data();
-      } else
-        return false;
-    });
+  // get lunch {
+  //   menuObject
+  //       .collection('MessDetails')
+  //       .doc(auth.currentUser.displayName)
+  //       .collection(auth.currentUser.uid)
+  //       .doc('Menu')
+  //       .collection(weekday)
+  //       .doc(mealtime)
+  //       .get()
+  //       .then((DocumentSnapshot document) {
+  //     if (document.exists) {
+  //       return document.data();
+  //     } else
+  //       return false;
+  //   });
+  // }
+  CollectionReference get snapshot {
+    return getmenu;
+  }
+
+  String get getday {
+    return weekday;
   }
 }

@@ -53,7 +53,7 @@ class _FoodTypeWidgetState extends State<FoodTypeWidget> {
             groupValue: _character,
             onChanged: (SingingCharacter value) {
               setState(() {
-                Provider.of<Menu>(context, listen: false).timing('Non-Veg');
+                Provider.of<Menu>(context, listen: false).type('Non-Veg');
                 _character = value;
               });
             },

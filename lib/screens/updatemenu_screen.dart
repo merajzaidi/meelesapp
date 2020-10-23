@@ -21,6 +21,7 @@ class _UpdatemenuState extends State<Updatemenu> {
     'rice': '',
     'desert': '',
     'price': '',
+    
   };
   final _formkey = GlobalKey<FormState>();
   Future<void> submit() async {
@@ -29,6 +30,7 @@ class _UpdatemenuState extends State<Updatemenu> {
     else {
       _formkey.currentState.save();
       Provider.of<Menu>(context, listen: false).addmenu(_initialdata);
+      Navigator.of(context).pop();
     }
   }
 

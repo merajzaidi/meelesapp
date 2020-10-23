@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:async';
-import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
@@ -179,6 +177,7 @@ class Auth with ChangeNotifier {
     });
     return false;
   }
+  Future<void> addpersonal(data)
 
   bool get isAuth {
     if (auth.currentUser == null)
@@ -188,7 +187,6 @@ class Auth with ChangeNotifier {
   }
 
   bool get registerdata {
-    print(auth.currentUser.displayName);
     FirebaseFirestore.instance
         .collection('MessDetails')
         .doc(auth.currentUser.displayName)
@@ -205,7 +203,4 @@ class Auth with ChangeNotifier {
     return false;
   }
 
-  // Map<String, String> get userdata {
-  //   return data;
-  // }
 }

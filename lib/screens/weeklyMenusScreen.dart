@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meeles/providers/menu.dart';
-import 'package:meeles/screens/updatemenu_screen.dart';
+import 'package:meeles/screens/menuview_screen.dart';
 import '../providers/menu.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +14,7 @@ class WeeklyMenuOverviewScreen extends StatelessWidget {
           (days) => InkWell(
             onTap: () async {
               await Provider.of<Menu>(context, listen: false).dayweek(days.day);
-              Navigator.of(context).pushNamed(Updatemenu.routeName);
+              Navigator.of(context).pushNamed(CardVariant.routeName);
             },
             splashColor: Theme.of(context).primaryColor,
             borderRadius: BorderRadius.circular(15),
