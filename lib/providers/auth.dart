@@ -121,14 +121,20 @@ import 'package:flutter/foundation.dart';
 // }
 class Auth with ChangeNotifier {
   UserCredential authresult;
+  bool isregister = false;
   Map<String, dynamic> data;
-  var user = FirebaseAuth.instance.currentUser;
+  var user;
   FirebaseAuth auth = FirebaseAuth.instance;
+  CollectionReference getmenu;
+  FirebaseFirestore adddata = FirebaseFirestore.instance;
   Future<void> authlogin(String email, String password) async {
-    // print(authresult);
-    // print(authresult.user.uid);
     authresult = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
+    user = FirebaseAuth.instance.currentUser;
+    getmenu = FirebaseFirestore.instance
+        .collection('MessDetails')
+        .doc(user.displayName)
+        .collection(user.uid);
     notifyListeners();
     return null;
   }
@@ -136,6 +142,7 @@ class Auth with ChangeNotifier {
   Future<void> authsignup(String email, String password) async {
     authresult = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
+    user = auth.currentUser;
     notifyListeners();
     return null;
   }
@@ -146,23 +153,18 @@ class Auth with ChangeNotifier {
   }
 
   Future<bool> addinfo(data2) async {
-    data = data2;
-    print(data);
-    user.updateProfile(displayName: data2['Landmark']);
-    await FirebaseFirestore.instance
+    await adddata
         .collection('MessDetails')
-        .doc(data2['Landmark'])
-        .collection(auth.currentUser.uid)
+        .doc(user.displayName)
+        .collection(user.uid)
         .doc('Details')
-        .set({
+        .update({
       'Shop Name': data2['shop_name'],
       'Address': data2['address'],
-      'Landmark': data2['Landmark'],
       'FSSAI NO': data2['fssai'],
-      'GST NO.': data2['gst'],
+      'GST NO': data2['gst'],
       'Capacity': data2['capacity'],
-      'Phone no.': data2['phone'],
-      'Email': authresult.user.email,
+      'Email': user.email,
       'Open Whole Day': data2['openwholeday'],
       'Monthly Subscription': data2['monthly'],
       'Lunch Begining': data2['lunch_start'],
@@ -175,32 +177,54 @@ class Auth with ChangeNotifier {
       print(error);
       return false;
     });
-    return false;
+    return true;
   }
-  Future<void> addpersonal(data)
+
+  Future<bool> addpersonal(data) async {
+    user.updateProfile(displayName: data['Landmark']);
+    print(auth.currentUser.displayName);
+    await adddata
+        .collection('MessDetails')
+        .doc(data['Landmark'])
+        .collection(user.uid)
+        .doc('Details')
+        .set({
+      'Owner Name': data['Name'],
+      'Permanent Address': data['permanent_address'],
+      'Pincode': data['pincode'],
+      'City': data['city'],
+      'Landmark': data['Landmark'],
+      'Phone no.': data['phone'],
+      'Adhar Card': data['adharcard'],
+    }).then((value) {
+      return true;
+    }).catchError((error) {
+      return false;
+    });
+    return true;
+  }
+
+  Future<void> addmenu() async {
+    await adddata
+        .collection('MessDetails')
+        .doc(user.displayName)
+        .collection(user.uid)
+        .doc('Menu')
+        .update({
+          'Menu': 'Yes',
+        })
+        .then((value) => true)
+        .catchError((onError) => false);
+  }
 
   bool get isAuth {
-    if (auth.currentUser == null)
+    if (user == null)
       return false;
     else
       return true;
   }
 
-  bool get registerdata {
-    FirebaseFirestore.instance
-        .collection('MessDetails')
-        .doc(auth.currentUser.displayName)
-        .collection(auth.currentUser.uid)
-        .doc('Details')
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        data = documentSnapshot.data();
-        return true;
-      } else
-        return false;
-    });
-    return false;
+  CollectionReference get snapshot {
+    return getmenu;
   }
-
 }

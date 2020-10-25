@@ -1,4 +1,4 @@
-package com.example.meeles
+package com.angrybaaz.meeles
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:meeles/constants/colorConstants.dart';
-import 'package:meeles/widgets/homeScreenDrawer.dart';
 import '../widgets/divider.dart';
 import 'package:time_range/time_range.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,6 +8,7 @@ import '../providers/auth.dart';
 import 'dart:io';
 
 class Registration extends StatefulWidget {
+  static const routeName = '/registration';
   @override
   _RegistrationState createState() => _RegistrationState();
 }
@@ -32,11 +32,9 @@ class _RegistrationState extends State<Registration> {
       //'image_url': '',
       'shop_name': '',
       'address': '',
-      'Landmark': '',
       'fssai': '',
       'gst': '',
       'capacity': '',
-      'phone': '',
       'openwholeday': false,
       'monthly': false,
       'lunch_start': '',
@@ -65,6 +63,10 @@ class _RegistrationState extends State<Registration> {
         _formkey.currentState.save();
         final issaved = await Provider.of<Auth>(context, listen: false)
             .addinfo(_initialdata);
+        if (issaved) {
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+        }
       }
     }
 
@@ -131,24 +133,6 @@ class _RegistrationState extends State<Registration> {
                   height: 12,
                 ),
                 TextFormField(
-                  initialValue: _initialdata['Landmark'],
-                  //focusNode: nodes[1],
-                  decoration: InputDecoration(
-                    labelText: 'Landmark',
-                    icon: Icon(Icons.place),
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: (value) {
-                    if (value.isEmpty) return 'Required';
-                  },
-                  onSaved: (val) {
-                    _initialdata['Landmark'] = val;
-                  },
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                TextFormField(
                   initialValue: _initialdata['fssai'],
                   //focusNode: nodes[3],
                   decoration: InputDecoration(
@@ -197,25 +181,6 @@ class _RegistrationState extends State<Registration> {
                   //focusNode: nodes[5],
                   onSaved: (val) {
                     _initialdata['capacity'] = val;
-                  },
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                TextFormField(
-                  initialValue: _initialdata['phone'],
-                  maxLength: 10,
-                  //focusNode: nodes[6],
-                  decoration: InputDecoration(
-                    labelText: 'Phone No.',
-                    icon: Icon(Icons.phone),
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: (value) {
-                    if (value.isEmpty) return 'Required';
-                  },
-                  onSaved: (val) {
-                    _initialdata['phone'] = val;
                   },
                 ),
                 SizedBox(

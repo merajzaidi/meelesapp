@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../providers/menu.dart';
+import '../providers/auth.dart';
 import 'package:provider/provider.dart';
 
 class ProfileView extends StatelessWidget {
@@ -8,7 +8,7 @@ class ProfileView extends StatelessWidget {
   CollectionReference messprofile;
   DocumentSnapshot data;
   Widget build(BuildContext context) {
-    messprofile = Provider.of<Menu>(context).snapshot;
+    messprofile = Provider.of<Auth>(context).snapshot;
     return FutureBuilder<DocumentSnapshot>(
       future: messprofile.doc('Details').get(),
       builder:
@@ -44,7 +44,7 @@ class ProfileView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Ramlal Banarasi',
+                                data['Owner Name'],
                                 style: TextStyle(
                                   fontFamily: 'Lato',
                                   fontSize: 23.0,
@@ -55,7 +55,7 @@ class ProfileView extends StatelessWidget {
                                 height: 8.0,
                               ),
                               Text(
-                                'elonmusk@spacex.com',
+                                data['Email'],
                                 style: TextStyle(
                                   fontFamily: 'Lato',
                                   color: Colors.blueGrey[200],
@@ -128,7 +128,7 @@ class ProfileView extends StatelessWidget {
                                         width: 20.0,
                                       ),
                                       Flexible(
-                                        child: Text('Address'),
+                                        child: Text(data['Address']),
                                       )
                                     ],
                                   ),

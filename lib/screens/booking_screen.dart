@@ -5,7 +5,13 @@ class BookingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('Booking View'),
+        child: Text(
+          'You will soon receive orders from here.',
+          style: TextStyle(
+            fontFamily: 'Montserrat',
+            fontSize: 16,
+          ),
+        ),
       ),
     );
   }

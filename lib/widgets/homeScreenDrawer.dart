@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:meeles/screens/contactus_screen.dart';
 import 'package:provider/provider.dart';
 import '../constants/colorConstants.dart';
 import '../components/userProfileSectionDrawer.dart';
 import '../components/drawerInkwellButtons.dart';
 import '../providers/auth.dart';
+import '../screens/aboutus_screen.dart';
 
 class HomeScreenDrawer extends StatelessWidget {
   @override
@@ -21,15 +23,10 @@ class HomeScreenDrawer extends StatelessWidget {
                   Icons.home,
                   color: kwhiteAlternateColor,
                 ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
               ),
-            ),
-            DrawerButtons(
-              buttonTitle: "Register your Shop",
-              buttonIcon: Icon(
-                Icons.assignment,
-                color: kwhiteAlternateColor,
-              ),
-              onPressed: () {},
             ),
             DrawerButtons(
               buttonTitle: "Create weekly menu's",
@@ -37,7 +34,6 @@ class HomeScreenDrawer extends StatelessWidget {
                 Icons.assignment,
                 color: kwhiteAlternateColor,
               ),
-              onPressed: () {},
             ),
             DrawerButtons(
               buttonTitle: 'About us',
@@ -45,7 +41,9 @@ class HomeScreenDrawer extends StatelessWidget {
                 Icons.business_center,
                 color: kwhiteAlternateColor,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(AboutUs.routeName);
+              },
             ),
             DrawerButtons(
               buttonTitle: 'Feedback',
@@ -61,7 +59,9 @@ class HomeScreenDrawer extends StatelessWidget {
                 Icons.phone,
                 color: kwhiteAlternateColor,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(ContactUs.routeName);
+              },
             ),
             DrawerButtons(
                 buttonTitle: 'Logout',

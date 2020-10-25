@@ -2,7 +2,6 @@ import '../constants/colorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/screen.dart';
-import '../providers/auth.dart';
 
 class NavigationBarBottom extends StatefulWidget {
   @override
@@ -13,8 +12,6 @@ class _NavigationBarBottomState extends State<NavigationBarBottom> {
   int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
-    bool isregister = Provider.of<Auth>(context).registerdata;
-    print(isregister);
     return BottomNavigationBar(
       currentIndex: _currentIndex,
       type: BottomNavigationBarType.fixed,

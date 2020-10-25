@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:meeles/screens/registerScreen.dart';
 import 'package:provider/provider.dart';
-import 'dart:io';
 import '../providers/auth.dart';
 
 class Profile extends StatefulWidget {
+  static const routeName = '/profile';
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -18,6 +19,7 @@ class _ProfileState extends State<Profile> {
       'adharcard': '',
       'city': '',
       'pincode': '',
+      'Landmark': '',
     };
     final _formkey = GlobalKey<FormState>();
     Future<void> submit() async {
@@ -27,6 +29,10 @@ class _ProfileState extends State<Profile> {
         _formkey.currentState.save();
         final issaved = await Provider.of<Auth>(context, listen: false)
             .addpersonal(_initialdata);
+        await Provider.of<Auth>(context, listen: false).addmenu();
+        if (issaved) {
+          Navigator.of(context).pushNamed(Registration.routeName);
+        }
       }
     }
 
@@ -56,6 +62,24 @@ class _ProfileState extends State<Profile> {
                   },
                   onSaved: (val) {
                     _initialdata['Name'] = val;
+                  },
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                TextFormField(
+                  initialValue: _initialdata['Landmark'],
+                  //focusNode: nodes[1],
+                  decoration: InputDecoration(
+                    labelText: 'Landmark',
+                    icon: Icon(Icons.place),
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value.isEmpty) return 'Required';
+                  },
+                  onSaved: (val) {
+                    _initialdata['Landmark'] = val;
                   },
                 ),
                 SizedBox(

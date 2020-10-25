@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import './auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
 
@@ -37,40 +36,32 @@ const Weekdays = const [
 ];
 
 class Menu with ChangeNotifier {
-  String weekday = '';
+  String weekday;
   String mealtime = 'Lunch';
   String mealtype = 'Veg';
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore menuObject = FirebaseFirestore.instance;
-  CollectionReference getmenu = FirebaseFirestore.instance
-      .collection('MessDetails')
-      .doc(FirebaseAuth.instance.currentUser.displayName)
-      .collection(FirebaseAuth.instance.currentUser.uid);
-  //Map<String, dynamic> messname = Auth().data;
   Future<void> dayweek(String dayy) {
     weekday = dayy;
     return null;
   }
 
-  Future<void> timing(String time) {
-    mealtime = time;
-    return null;
-  }
-
   Future<void> type(String typee) {
     mealtype = typee;
+    notifyListeners();
     return null;
   }
 
   Future<bool> addmenu(data) async {
     // String date = new DateTime.now().toString();
+    print(mealtime);
     await menuObject
         .collection('MessDetails')
         .doc(auth.currentUser.displayName)
         .collection(auth.currentUser.uid)
         .doc('Menu')
         .collection(weekday)
-        .doc(mealtime)
+        .doc(data['type'])
         .set({
       'Item1': data['item1'],
       'Item2': data['item2'],
@@ -80,7 +71,8 @@ class Menu with ChangeNotifier {
       'Rice Type': data['rice'],
       'Desert': data['desert'],
       'Price': data['price'],
-      'type': mealtime,
+      'type': data['type'],
+      'Food_Type': data['thali_type'],
     }).then((_) {
       return true;
     }).catchError((e) {
@@ -88,26 +80,6 @@ class Menu with ChangeNotifier {
       return false;
     });
     return true;
-  }
-
-  // get lunch {
-  //   menuObject
-  //       .collection('MessDetails')
-  //       .doc(auth.currentUser.displayName)
-  //       .collection(auth.currentUser.uid)
-  //       .doc('Menu')
-  //       .collection(weekday)
-  //       .doc(mealtime)
-  //       .get()
-  //       .then((DocumentSnapshot document) {
-  //     if (document.exists) {
-  //       return document.data();
-  //     } else
-  //       return false;
-  //   });
-  // }
-  CollectionReference get snapshot {
-    return getmenu;
   }
 
   String get getday {

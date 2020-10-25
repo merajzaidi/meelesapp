@@ -4,8 +4,6 @@ import 'package:meeles/providers/screen.dart';
 import 'package:provider/provider.dart';
 import '../widgets/bottomNavigationBarHomePage.dart';
 import '../widgets/homeScreenDrawer.dart';
-import '../models/messDetails.dart';
-import '../providers/auth.dart';
 
 class HomepageOverviewScreen extends StatelessWidget {
   void handleClick(String value) {
@@ -17,6 +15,7 @@ class HomepageOverviewScreen extends StatelessWidget {
     }
   }
 
+  static const routeName = '/homepageoverviewscreen';
   @override
   Widget build(BuildContext context) {
     String titlename = Provider.of<Screen>(context).gettitle;
