@@ -5,6 +5,7 @@ import '../providers/menu.dart';
 import 'package:provider/provider.dart';
 
 class WeeklyMenuOverviewScreen extends StatelessWidget {
+  static const routeName = '/weeklymenuoverviewscreen';
   @override
   Widget build(BuildContext context) {
     return Scaffold(

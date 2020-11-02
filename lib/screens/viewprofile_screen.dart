@@ -1,16 +1,20 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:meeles/screens/registerScreen.dart';
+import 'package:meeles/screens/registerprofile_screen.dart';
+import 'package:meeles/screens/weeklyMenusScreen.dart';
 import '../providers/auth.dart';
 import 'package:provider/provider.dart';
 
 class ProfileView extends StatelessWidget {
   static const id = 'UpdateProfile';
-  CollectionReference messprofile;
   DocumentSnapshot data;
+  var auth = FirebaseAuth.instance.currentUser;
   Widget build(BuildContext context) {
-    messprofile = Provider.of<Auth>(context).snapshot;
     return FutureBuilder<DocumentSnapshot>(
-      future: messprofile.doc('Details').get(),
+      future:
+          FirebaseFirestore.instance.collection('Mess').doc(auth.email).get(),
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
@@ -149,7 +153,10 @@ class ProfileView extends StatelessWidget {
                                     height: 20.0,
                                   ),
                                   FlatButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.of(context).pushNamed(
+                                          WeeklyMenuOverviewScreen.routeName);
+                                    },
                                     child: Text(
                                       'Proceed for weekly menu updation',
                                       style: TextStyle(
@@ -163,7 +170,10 @@ class ProfileView extends StatelessWidget {
                                   ),
                                   RaisedButton(
                                     color: Theme.of(context).primaryColor,
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pushNamed(Profile.routeName);
+                                    },
                                     child: Text(
                                       'Update Info',
                                       style: TextStyle(

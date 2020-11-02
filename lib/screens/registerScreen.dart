@@ -17,19 +17,7 @@ class _RegistrationState extends State<Registration> {
   @override
   Widget build(BuildContext context) {
     final _formkey = GlobalKey<FormState>();
-    // final nodes = [
-    //   FocusNode(),
-    //   FocusNode(),
-    //   FocusNode(),
-    //   FocusNode(),
-    //   FocusNode(),
-    //   FocusNode(),
-    //   FocusNode(),
-    //   FocusNode(),
-    //   FocusNode(),
-    // ];
     Map<String, dynamic> _initialdata = {
-      //'image_url': '',
       'shop_name': '',
       'address': '',
       'fssai': '',

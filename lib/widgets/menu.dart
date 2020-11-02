@@ -1,26 +1,32 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:meeles/providers/auth.dart';
 import 'package:meeles/screens/updatemenu_screen.dart';
-import 'package:provider/provider.dart';
-import '../providers/auth.dart';
+import 'package:intl/intl.dart';
 
 class MenuWidget extends StatelessWidget {
   static const routeName = '/cardvariant';
   static const id = 'CardVariant';
   String getday;
+  String today = DateFormat('EEEEE', 'en_US').format(DateTime.now());
+  var currentuser = FirebaseAuth.instance.currentUser;
   CollectionReference daymenu;
   MenuWidget({this.getday});
 
   @override
   Widget build(BuildContext context) {
     final heightOne = MediaQuery.of(context).size.height;
-    daymenu = Provider.of<Auth>(context).snapshot;
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: StreamBuilder<QuerySnapshot>(
-          stream: daymenu.doc('Menu').collection(getday).snapshots(),
+          stream: FirebaseFirestore.instance
+              .collection('Mess')
+              .doc(currentuser.email)
+              .collection('Other Details')
+              .doc('Menu')
+              .collection(getday)
+              .snapshots(includeMetadataChanges: true),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> menushot) {
             if (menushot.connectionState == ConnectionState.waiting) {
@@ -208,8 +214,14 @@ class MenuWidget extends StatelessWidget {
                                 child: Container(
                                   width: double.infinity,
                                   padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                      '${document.data()['Item1']}  ${document.data()['Item2']}  ${document.data()['Item3']}  ${document.data()['Item4']}  Roti\'s : ${document.data()['Roti Quantity']}  ${document.data()['Rice Type']}  ${document.data()['Desert']}'),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                          '${document.data()['Item1']}  ${document.data()['Item2']}  ${document.data()['Item3']}  ${document.data()['Item4']}  Roti\'s : ${document.data()['Roti Quantity']}  ${document.data()['Rice Type']}  ${document.data()['Desert']}'),
+                                      Text(
+                                          'Price: ${document.data()['Price']}'),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],

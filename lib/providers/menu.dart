@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
+import 'package:intl/intl.dart';
 
 class Days {
   final String day;
@@ -25,7 +26,7 @@ const Weekdays = const [
     day: 'Wednesday',
   ),
   Days(
-    day: 'Thrusday',
+    day: 'Thursday',
   ),
   Days(
     day: 'Friday',
@@ -36,11 +37,15 @@ const Weekdays = const [
 ];
 
 class Menu with ChangeNotifier {
-  String weekday;
+  String weekday = DateFormat('EEEEE', 'en_US').format(DateTime.now());
   String mealtime = 'Lunch';
   String mealtype = 'Veg';
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore menuObject = FirebaseFirestore.instance;
+  Stream document = FirebaseFirestore.instance
+      .collection('Mess')
+      .doc(FirebaseAuth.instance.currentUser.email)
+      .snapshots();
   Future<void> dayweek(String dayy) {
     weekday = dayy;
     return null;
@@ -55,10 +60,11 @@ class Menu with ChangeNotifier {
   Future<bool> addmenu(data) async {
     // String date = new DateTime.now().toString();
     print(mealtime);
+    print(data);
     await menuObject
-        .collection('MessDetails')
-        .doc(auth.currentUser.displayName)
-        .collection(auth.currentUser.uid)
+        .collection('Mess')
+        .doc(auth.currentUser.email)
+        .collection('Other Details')
         .doc('Menu')
         .collection(weekday)
         .doc(data['type'])

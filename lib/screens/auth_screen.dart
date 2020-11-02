@@ -104,11 +104,11 @@ class _AuthScreenState extends State<AuthScreen> {
                       icon: Icon(Icons.email),
                       border: OutlineInputBorder(),
                     ),
-                    onSaved: (val) => email = (val.trim()),
-                    validator: (value) {
-                      if (value.isEmpty || !value.contains('@'))
+                    validator: (val) {
+                      if (val.isEmpty || val.contains('@'))
                         return 'Invalid Email';
                     },
+                    onSaved: (val) => email = (val.trim()),
                   ),
                   SizedBox(
                     height: 12,

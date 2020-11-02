@@ -3,6 +3,7 @@ import 'package:meeles/providers/screen.dart';
 import 'package:meeles/screens/contactus_screen.dart';
 import 'package:meeles/screens/menuview_screen.dart';
 import 'package:meeles/screens/updatemenu_screen.dart';
+import 'package:meeles/screens/weeklyMenusScreen.dart';
 import 'package:provider/provider.dart';
 import './screens/homeOverviewScreen.dart';
 import './constants/colorConstants.dart';
@@ -56,6 +57,8 @@ class MyApp extends StatelessWidget {
               AboutUs.routeName: (ctx) => AboutUs(),
               ContactUs.routeName: (ctx) => ContactUs(),
               Profile.routeName: (ctx) => Profile(),
+              WeeklyMenuOverviewScreen.routeName: (ctx) =>
+                  WeeklyMenuOverviewScreen()
             }),
       ),
     );
