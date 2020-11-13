@@ -4,14 +4,90 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meeles/screens/registerScreen.dart';
 import 'package:meeles/screens/registerprofile_screen.dart';
 import 'package:meeles/screens/weeklyMenusScreen.dart';
-import '../providers/auth.dart';
-import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
+import 'package:path/path.dart' as Path;
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends StatefulWidget {
   static const id = 'UpdateProfile';
+
+  @override
+  _ProfileViewState createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
   DocumentSnapshot data;
+
   var auth = FirebaseAuth.instance.currentUser;
+
+  File pickedimage;
+
   Widget build(BuildContext context) {
+    // void _pickImage() async {
+    //   final pickedImageFile = await ImagePicker().getImage(
+    //     source: ImageSource.camera,
+    //     imageQuality: 50,
+    //     maxWidth: 150,
+    //   );
+    //   setState(() {
+    //     pickedimage = File(pickedImageFile.path);
+    //   });
+    //   String downloadURL = await firebase_storage.FirebaseStorage.instance
+    //   .ref(pickedImageFile.path)
+    //   .getDownloadURL();
+    // }
+    File _image;
+    final picker = ImagePicker();
+    String _uploadFileURL;
+    DocumentReference imgColRef =
+        FirebaseFirestore.instance.collection('Mess').doc(auth.email);
+
+    Future<void> retrieveLostData() async {
+      final LostData response = await picker.getLostData();
+      if (response.isEmpty) {
+        return;
+      }
+      if (response.file != null) {
+        setState(() {
+          _image = File(response.file.path);
+        });
+      } else {
+        print(response.file);
+      }
+    }
+
+    Future chooseImage() async {
+      final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+
+      if (pickedFile.path == null) retrieveLostData();
+    }
+
+    Future uploadFile() async {
+      var storageReference = FirebaseStorage.instance
+          .ref()
+          .child('images/${Path.basename(_image.path)}');
+
+      UploadTask uploadTask = storageReference.putFile(_image);
+      await uploadTask.whenComplete(() => null);
+      print('file uploaded');
+
+      storageReference.getDownloadURL().then((fileURL) {
+        setState(() {
+          _uploadFileURL = fileURL;
+        });
+      }).whenComplete(() async {
+        await imgColRef.update({'url': _uploadFileURL});
+        print('link added to database');
+      });
+    }
+
     return FutureBuilder<DocumentSnapshot>(
       future:
           FirebaseFirestore.instance.collection('Mess').doc(auth.email).get(),
@@ -68,11 +144,26 @@ class ProfileView extends StatelessWidget {
                             ],
                           ),
                           Spacer(),
-                          CircleAvatar(
-                            radius: 35.0,
-                            backgroundImage: NetworkImage(
-                              'https://image.cnbcfm.com/api/v1/image/105773439-1551717349171rtx6p9uc.jpg?v=1551717410',
-                            ),
+                          Column(
+                            children: [
+                              CircleAvatar(
+                                radius: 35.0,
+                                backgroundImage: data['url'] == null
+                                    ? NetworkImage(
+                                        'https://image.cnbcfm.com/api/v1/image/105773439-1551717349171rtx6p9uc.jpg?v=1551717410')
+                                    : NetworkImage(data['url']),
+                              ),
+                              FlatButton.icon(
+                                onPressed: () {
+                                  chooseImage().whenComplete(() {
+                                    uploadFile();
+                                  });
+                                },
+                                textColor: Theme.of(context).primaryColor,
+                                icon: Icon(Icons.image),
+                                label: Text('Update Photo'),
+                              ),
+                            ],
                           ),
                         ],
                       ),

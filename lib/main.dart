@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meeles/providers/screen.dart';
+import 'package:meeles/screens/bookingdetails_screen.dart';
 import 'package:meeles/screens/contactus_screen.dart';
 import 'package:meeles/screens/menuview_screen.dart';
 import 'package:meeles/screens/updatemenu_screen.dart';
@@ -58,7 +59,8 @@ class MyApp extends StatelessWidget {
               ContactUs.routeName: (ctx) => ContactUs(),
               Profile.routeName: (ctx) => Profile(),
               WeeklyMenuOverviewScreen.routeName: (ctx) =>
-                  WeeklyMenuOverviewScreen()
+                  WeeklyMenuOverviewScreen(),
+              Bookingdetails.routeName: (ctx) => Bookingdetails(),
             }),
       ),
     );

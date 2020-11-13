@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/menu.dart';
+import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 
 class Updatemenu extends StatefulWidget {
   static const routeName = '/updatemenu';
@@ -21,20 +22,40 @@ class _UpdatemenuState extends State<Updatemenu> {
     'price': '',
     'type': 'Lunch',
     'thali_type': 'Veg',
+    'seats': '',
+    'instant': '',
   };
+  var _dateTime;
   final _formkey = GlobalKey<FormState>();
   Future<void> submit() async {
     if (!_formkey.currentState.validate())
       print('invalid');
     else {
       _formkey.currentState.save();
-      Provider.of<Menu>(context, listen: false).addmenu(_initialdata);
+      Provider.of<Menu>(context, listen: false)
+          .addmenu(_initialdata, _dateTime);
       Navigator.of(context).pop();
     }
   }
 
   String dropdownValue = 'Lunch';
   String thalitype = 'Veg';
+
+  Future<Null> updatetime() async {
+    var _time = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+      builder: (BuildContext context, Widget child) {
+        return Directionality(textDirection: TextDirection.rtl, child: child);
+      },
+    );
+    final MaterialLocalizations localizations =
+        MaterialLocalizations.of(context);
+    setState(() {
+      _dateTime = localizations.formatTimeOfDay(_time);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,6 +130,7 @@ class _UpdatemenuState extends State<Updatemenu> {
                   ),
                   TextFormField(
                     initialValue: _initialdata['item1'],
+                    textCapitalization: TextCapitalization.words,
                     decoration: InputDecoration(
                       labelText: 'Item1',
                       enabledBorder: OutlineInputBorder(
@@ -130,6 +152,7 @@ class _UpdatemenuState extends State<Updatemenu> {
                   ),
                   TextFormField(
                     initialValue: _initialdata['item2'],
+                    textCapitalization: TextCapitalization.words,
                     decoration: InputDecoration(
                       labelText: 'Item2',
                       enabledBorder: OutlineInputBorder(
@@ -151,6 +174,7 @@ class _UpdatemenuState extends State<Updatemenu> {
                   ),
                   TextFormField(
                     initialValue: _initialdata['item3'],
+                    textCapitalization: TextCapitalization.words,
                     decoration: InputDecoration(
                       labelText: 'Item3',
                       enabledBorder: OutlineInputBorder(
@@ -169,6 +193,7 @@ class _UpdatemenuState extends State<Updatemenu> {
                   ),
                   TextFormField(
                     initialValue: _initialdata['item4'],
+                    textCapitalization: TextCapitalization.words,
                     decoration: InputDecoration(
                       labelText: 'Item4',
                       enabledBorder: OutlineInputBorder(
@@ -209,6 +234,7 @@ class _UpdatemenuState extends State<Updatemenu> {
                   ),
                   TextFormField(
                     initialValue: _initialdata['rice'],
+                    textCapitalization: TextCapitalization.words,
                     decoration: InputDecoration(
                       labelText: 'Rice Type',
                       enabledBorder: OutlineInputBorder(
@@ -227,6 +253,7 @@ class _UpdatemenuState extends State<Updatemenu> {
                   ),
                   TextFormField(
                     initialValue: _initialdata['desert'],
+                    textCapitalization: TextCapitalization.words,
                     decoration: InputDecoration(
                       labelText: 'Desert',
                       enabledBorder: OutlineInputBorder(
@@ -261,6 +288,85 @@ class _UpdatemenuState extends State<Updatemenu> {
                       _initialdata['price'] = val;
                     },
                     keyboardType: TextInputType.number,
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  TextFormField(
+                    initialValue: _initialdata['seats'],
+                    decoration: InputDecoration(
+                      labelText: 'Seats',
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) return 'Required';
+                    },
+                    onSaved: (val) {
+                      _initialdata['seats'] = val;
+                    },
+                    keyboardType: TextInputType.number,
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  TextFormField(
+                    initialValue: _initialdata['instant'],
+                    decoration: InputDecoration(
+                      labelText: 'Instance seat available',
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) return 'Required';
+                    },
+                    onSaved: (val) {
+                      _initialdata['instant'] = val;
+                    },
+                    keyboardType: TextInputType.number,
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Text(
+                    'Select Prebooking Time',
+                    style: TextStyle(
+                      fontFamily: 'Lato',
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Container(
+                    height: 70,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            _dateTime == null
+                                ? 'No Time Chosen!'
+                                : 'Picked Date: ${_dateTime}',
+                          ),
+                        ),
+                        FlatButton(
+                          textColor: Theme.of(context).primaryColor,
+                          child: Text(
+                            'Choose Date',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          onPressed: updatetime,
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 20.0,

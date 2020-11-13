@@ -57,7 +57,7 @@ class Menu with ChangeNotifier {
     return null;
   }
 
-  Future<bool> addmenu(data) async {
+  Future<bool> addmenu(data, time) async {
     // String date = new DateTime.now().toString();
     print(mealtime);
     print(data);
@@ -79,6 +79,9 @@ class Menu with ChangeNotifier {
       'Price': data['price'],
       'type': data['type'],
       'Food_Type': data['thali_type'],
+      'Seats': data['seats'],
+      'Instant': data['instant'],
+      'Prebook Time': time,
     }).then((_) {
       return true;
     }).catchError((e) {
