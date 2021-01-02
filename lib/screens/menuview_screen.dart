@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meeles/screens/updatemenu_screen.dart';
-import 'package:meeles/widgets/menu.dart';
+import 'package:Meeles_Partner/screens/updatemenu_screen.dart';
+import 'package:Meeles_Partner/widgets/menu.dart';
 import '../widgets/menu.dart';
 import '../constants/colorConstants.dart';
 import 'package:provider/provider.dart';

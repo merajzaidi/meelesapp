@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/widgets.dart';
-import 'package:meeles/screens/viewprofile_screen.dart';
-import 'package:meeles/widgets/menu.dart';
+import 'package:Meeles_Partner/screens/viewprofile_screen.dart';
+import 'package:Meeles_Partner/widgets/menu.dart';
 import '../screens/weeklyMenusScreen.dart';
 import '../screens/booking_screen.dart';
 import 'package:intl/intl.dart';

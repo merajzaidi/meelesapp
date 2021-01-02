@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meeles/providers/menu.dart';
-import 'package:meeles/screens/menuview_screen.dart';
+import 'package:Meeles_Partner/providers/menu.dart';
+import 'package:Meeles_Partner/screens/menuview_screen.dart';
 import '../providers/menu.dart';
 import 'package:provider/provider.dart';
 

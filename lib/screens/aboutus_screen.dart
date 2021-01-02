@@ -24,7 +24,7 @@ class AboutUs extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Eagerness for change is the human nature, and keeping the same in mind, meeles has been initiated. Meeles is an online platform for a variety of food lovers and owners to come across each other and connects them front to front, the food lovers have the options or choices for their daily meals, whether it is lunch or dinner and may experience something new everyday from a variety of messes in their area than to the traditional and boring daily meals of a single mess.',
+                    'Eagerness for change is the human nature, and keeping the same in mind, Meeles_Partner has been initiated. Meeles_Partner is an online platform for a variety of food lovers and owners to come across each other and connects them front to front, the food lovers have the options or choices for their daily meals, whether it is lunch or dinner and may experience something new everyday from a variety of messes in their area than to the traditional and boring daily meals of a single mess.',
                     style: TextStyle(
                       fontFamily: 'Montserrat',
                       fontSize: 16,

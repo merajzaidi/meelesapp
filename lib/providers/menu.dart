@@ -46,6 +46,8 @@ class Menu with ChangeNotifier {
       .collection('Mess')
       .doc(FirebaseAuth.instance.currentUser.email)
       .snapshots();
+  List meals = ['Lunch', 'Lunch Instant', 'Dinner', 'Dinner Instant'];
+  Map<String, dynamic> data;
   Future<void> dayweek(String dayy) {
     weekday = dayy;
     return null;
@@ -93,5 +95,49 @@ class Menu with ChangeNotifier {
 
   String get getday {
     return weekday;
+  }
+
+  Future updatestatus(id) async {
+    int i;
+    bool isfind = true;
+    var details = FirebaseFirestore.instance
+        .collection('Mess')
+        .doc(auth.currentUser.email)
+        .collection('Booking')
+        .doc(DateFormat.yMMMMEEEEd().format(DateTime.now()));
+    // FirebaseFirestore.instance
+    //     .collectionGroup('Booking')
+    //     .get()
+    //     .then((QuerySnapshot querySnapshot) {
+    //   querySnapshot.docs.forEach((doc) {
+    //     print(doc["Name"]);
+    //   });
+    // });
+    for (i = 0; i < 4; i++) {
+      if (isfind) {
+        data = await details
+            .collection(meals[i])
+            .doc(id)
+            .get()
+            .then((DocumentSnapshot documentSnapshot) {
+          if (documentSnapshot.exists) {
+            print(documentSnapshot.data());
+            details
+                .collection(documentSnapshot.data()['Type'])
+                .doc(id)
+                .update({'Food Taken': true}).then((value) {
+              print('Updated');
+            });
+            isfind = false;
+            return documentSnapshot.data();
+          }
+        });
+      } else
+        break;
+    }
+    if (isfind)
+      return {'error': 'Not Found'};
+    else
+      return data;
   }
 }

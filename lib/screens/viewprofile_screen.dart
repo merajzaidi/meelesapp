@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:meeles/screens/registerScreen.dart';
-import 'package:meeles/screens/registerprofile_screen.dart';
-import 'package:meeles/screens/weeklyMenusScreen.dart';
+import 'package:Meeles_Partner/screens/registerScreen.dart';
+import 'package:Meeles_Partner/screens/registerprofile_screen.dart';
+import 'package:Meeles_Partner/screens/weeklyMenusScreen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -22,7 +22,6 @@ class _ProfileViewState extends State<ProfileView> {
   DocumentSnapshot data;
 
   var auth = FirebaseAuth.instance.currentUser;
-
   File pickedimage;
 
   Widget build(BuildContext context) {

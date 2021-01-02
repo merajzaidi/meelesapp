@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:meeles/providers/screen.dart';
-import 'package:meeles/screens/bookingdetails_screen.dart';
-import 'package:meeles/screens/contactus_screen.dart';
-import 'package:meeles/screens/menuview_screen.dart';
-import 'package:meeles/screens/updatemenu_screen.dart';
-import 'package:meeles/screens/weeklyMenusScreen.dart';
+import 'package:Meeles_Partner/providers/screen.dart';
+import 'package:Meeles_Partner/screens/bookingdetails_screen.dart';
+import 'package:Meeles_Partner/screens/contactus_screen.dart';
+import 'package:Meeles_Partner/screens/menuview_screen.dart';
+import 'package:Meeles_Partner/screens/updatemenu_screen.dart';
+import 'package:Meeles_Partner/screens/weeklyMenusScreen.dart';
 import 'package:provider/provider.dart';
 import './screens/homeOverviewScreen.dart';
 import './constants/colorConstants.dart';

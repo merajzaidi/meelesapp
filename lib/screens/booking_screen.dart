@@ -3,14 +3,19 @@ import '../widgets/orders.dart';
 import 'package:intl/intl.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 import './bookingdetails_screen.dart';
+import 'package:provider/provider.dart';
+import '../providers/menu.dart';
 
 class BookingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future scancode() async {
       String id = await scanner.scan();
-      print(id);
-      Navigator.of(context).pushNamed(Bookingdetails.routeName, arguments: id);
+      //String id = 'UBpmaWce4ORZnCNCfAH';
+      var data =
+          await Provider.of<Menu>(context, listen: false).updatestatus(id);
+      Navigator.of(context)
+          .pushNamed(Bookingdetails.routeName, arguments: data);
     }
 
     return DefaultTabController(

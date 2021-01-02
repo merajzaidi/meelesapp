@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meeles/widgets/divider.dart';
+import 'package:Meeles_Partner/widgets/divider.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth.dart';
 import 'package:time_range/time_range.dart';

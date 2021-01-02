@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meeles/constants/colorConstants.dart';
+import 'package:Meeles_Partner/constants/colorConstants.dart';
 import '../widgets/divider.dart';
 import 'package:time_range/time_range.dart';
 import 'package:image_picker/image_picker.dart';

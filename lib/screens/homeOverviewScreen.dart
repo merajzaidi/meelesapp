@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:meeles/constants/colorConstants.dart';
-import 'package:meeles/providers/screen.dart';
+import 'package:Meeles_Partner/constants/colorConstants.dart';
+import 'package:Meeles_Partner/providers/screen.dart';
 import 'package:provider/provider.dart';
 import '../widgets/bottomNavigationBarHomePage.dart';
 import '../widgets/homeScreenDrawer.dart';
