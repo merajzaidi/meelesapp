@@ -12,18 +12,18 @@ class Updatemenu extends StatefulWidget {
 
 class _UpdatemenuState extends State<Updatemenu> {
   Map<String, dynamic> _initialdata = {
-    'item1': '',
-    'item2': '',
-    'item3': '',
-    'item4': '',
-    'roti': '',
-    'rice': '',
-    'desert': '',
-    'price': '',
+    'Item1': '',
+    'Item2': '',
+    'Item3': '',
+    'Item4': '',
+    'Roti Quantity': '',
+    'Rice Type': '',
+    'Desert': '',
+    'Price': '',
     'type': 'Lunch',
-    'thali_type': 'Veg',
-    'seats': '',
-    'instant': '',
+    'Food_Type': 'Veg',
+    'Seats': '',
+    'Instant': '',
   };
   var _dateTime;
   final _formkey = GlobalKey<FormState>();
@@ -32,6 +32,7 @@ class _UpdatemenuState extends State<Updatemenu> {
       print('invalid');
     else {
       _formkey.currentState.save();
+      print(' sending $_initialdata');
       Provider.of<Menu>(context, listen: false)
           .addmenu(_initialdata, _dateTime);
       Navigator.of(context).pop();
@@ -51,13 +52,20 @@ class _UpdatemenuState extends State<Updatemenu> {
     );
     final MaterialLocalizations localizations =
         MaterialLocalizations.of(context);
-    setState(() {
+    
       _dateTime = localizations.formatTimeOfDay(_time);
-    });
+    
   }
-
+  
+  
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
+    print(args);
+    if(args['havedata']){
+      _initialdata = args['data'];
+    }
+    print(_initialdata);
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Thali Gradients'),
@@ -110,11 +118,11 @@ class _UpdatemenuState extends State<Updatemenu> {
                       color: Colors.black26,
                     ),
                     onChanged: (String newValue) {
-                      _initialdata['thali_type'] = newValue;
+                      _initialdata['Food_Type'] = newValue;
                       setState(() {
                         thalitype = newValue;
                       });
-                      print(_initialdata['thali_type']);
+                      print(_initialdata['Food_Type']);
                     },
                     isExpanded: true,
                     items: <String>['Veg', 'Non Veg']
@@ -129,7 +137,7 @@ class _UpdatemenuState extends State<Updatemenu> {
                     height: 20.0,
                   ),
                   TextFormField(
-                    initialValue: _initialdata['item1'],
+                    initialValue: _initialdata['Item1'],
                     textCapitalization: TextCapitalization.words,
                     decoration: InputDecoration(
                       labelText: 'Item1',
@@ -144,14 +152,14 @@ class _UpdatemenuState extends State<Updatemenu> {
                       if (value.isEmpty) return 'Required';
                     },
                     onSaved: (val) {
-                      _initialdata['item1'] = val;
+                      _initialdata['Item1'] = val;
                     },
                   ),
                   SizedBox(
                     height: 20.0,
                   ),
                   TextFormField(
-                    initialValue: _initialdata['item2'],
+                    initialValue: _initialdata['Item2'],
                     textCapitalization: TextCapitalization.words,
                     decoration: InputDecoration(
                       labelText: 'Item2',
@@ -166,14 +174,14 @@ class _UpdatemenuState extends State<Updatemenu> {
                       if (value.isEmpty) return 'Required';
                     },
                     onSaved: (val) {
-                      _initialdata['item2'] = val;
+                      _initialdata['Item2'] = val;
                     },
                   ),
                   SizedBox(
                     height: 20.0,
                   ),
                   TextFormField(
-                    initialValue: _initialdata['item3'],
+                    initialValue: _initialdata['Item3'],
                     textCapitalization: TextCapitalization.words,
                     decoration: InputDecoration(
                       labelText: 'Item3',
@@ -185,14 +193,14 @@ class _UpdatemenuState extends State<Updatemenu> {
                       ),
                     ),
                     onSaved: (val) {
-                      _initialdata['item3'] = val;
+                      _initialdata['Item3'] = val;
                     },
                   ),
                   SizedBox(
                     height: 20.0,
                   ),
                   TextFormField(
-                    initialValue: _initialdata['item4'],
+                    initialValue: _initialdata['Item4'],
                     textCapitalization: TextCapitalization.words,
                     decoration: InputDecoration(
                       labelText: 'Item4',
@@ -204,14 +212,14 @@ class _UpdatemenuState extends State<Updatemenu> {
                       ),
                     ),
                     onSaved: (val) {
-                      _initialdata['item4'] = val;
+                      _initialdata['Item4'] = val;
                     },
                   ),
                   SizedBox(
                     height: 20.0,
                   ),
                   TextFormField(
-                    initialValue: _initialdata['roti'],
+                    initialValue: _initialdata['Roti Quantity'],
                     decoration: InputDecoration(
                       labelText: 'Roti Quantity',
                       enabledBorder: OutlineInputBorder(
@@ -225,7 +233,7 @@ class _UpdatemenuState extends State<Updatemenu> {
                       if (value.isEmpty) return 'Required';
                     },
                     onSaved: (val) {
-                      _initialdata['roti'] = val;
+                      _initialdata['Roti Quantity'] = val;
                     },
                     keyboardType: TextInputType.number,
                   ),
@@ -233,7 +241,7 @@ class _UpdatemenuState extends State<Updatemenu> {
                     height: 20.0,
                   ),
                   TextFormField(
-                    initialValue: _initialdata['rice'],
+                    initialValue: _initialdata['Rice Type'],
                     textCapitalization: TextCapitalization.words,
                     decoration: InputDecoration(
                       labelText: 'Rice Type',
@@ -245,14 +253,14 @@ class _UpdatemenuState extends State<Updatemenu> {
                       ),
                     ),
                     onSaved: (val) {
-                      _initialdata['rice'] = val;
+                      _initialdata['Rice Type'] = val;
                     },
                   ),
                   SizedBox(
                     height: 20.0,
                   ),
                   TextFormField(
-                    initialValue: _initialdata['desert'],
+                    initialValue: _initialdata['Desert'],
                     textCapitalization: TextCapitalization.words,
                     decoration: InputDecoration(
                       labelText: 'Desert',
@@ -264,14 +272,14 @@ class _UpdatemenuState extends State<Updatemenu> {
                       ),
                     ),
                     onSaved: (val) {
-                      _initialdata['desert'] = val;
+                      _initialdata['Desert'] = val;
                     },
                   ),
                   SizedBox(
                     height: 20.0,
                   ),
                   TextFormField(
-                    initialValue: _initialdata['price'],
+                    initialValue: _initialdata['Price'],
                     decoration: InputDecoration(
                       labelText: 'Price',
                       enabledBorder: OutlineInputBorder(
@@ -285,7 +293,7 @@ class _UpdatemenuState extends State<Updatemenu> {
                       if (value.isEmpty) return 'Required';
                     },
                     onSaved: (val) {
-                      _initialdata['price'] = val;
+                      _initialdata['Price'] = val;
                     },
                     keyboardType: TextInputType.number,
                   ),
@@ -293,7 +301,7 @@ class _UpdatemenuState extends State<Updatemenu> {
                     height: 20.0,
                   ),
                   TextFormField(
-                    initialValue: _initialdata['seats'],
+                    initialValue: _initialdata['Seats'],
                     decoration: InputDecoration(
                       labelText: 'Seats',
                       enabledBorder: OutlineInputBorder(
@@ -307,7 +315,7 @@ class _UpdatemenuState extends State<Updatemenu> {
                       if (value.isEmpty) return 'Required';
                     },
                     onSaved: (val) {
-                      _initialdata['seats'] = val;
+                      _initialdata['Seats'] = val;
                     },
                     keyboardType: TextInputType.number,
                   ),
@@ -315,7 +323,7 @@ class _UpdatemenuState extends State<Updatemenu> {
                     height: 20.0,
                   ),
                   TextFormField(
-                    initialValue: _initialdata['instant'],
+                    initialValue: _initialdata['Instant'],
                     decoration: InputDecoration(
                       labelText: 'Instance seat available',
                       enabledBorder: OutlineInputBorder(
@@ -329,7 +337,7 @@ class _UpdatemenuState extends State<Updatemenu> {
                       if (value.isEmpty) return 'Required';
                     },
                     onSaved: (val) {
-                      _initialdata['instant'] = val;
+                      _initialdata['Instant'] = val;
                     },
                     keyboardType: TextInputType.number,
                   ),

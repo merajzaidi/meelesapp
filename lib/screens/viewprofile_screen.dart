@@ -1,7 +1,7 @@
+import 'package:Meeles_Partner/components/globalvariables.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:Meeles_Partner/screens/registerScreen.dart';
 import 'package:Meeles_Partner/screens/registerprofile_screen.dart';
 import 'package:Meeles_Partner/screens/weeklyMenusScreen.dart';
 import 'package:image_picker/image_picker.dart';
@@ -87,29 +87,7 @@ class _ProfileViewState extends State<ProfileView> {
       });
     }
 
-    return FutureBuilder<DocumentSnapshot>(
-      future:
-          FirebaseFirestore.instance.collection('Mess').doc(auth.email).get(),
-      builder:
-          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return AlertDialog(
-            title: Text('An Error Occured'),
-            content: Text('Something went Wrong'),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('Okay'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        }
-
-        if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data = snapshot.data.data();
-          return Scaffold(
+    return Scaffold(
             body: SingleChildScrollView(
               child: SafeArea(
                 child: Padding(
@@ -123,7 +101,7 @@ class _ProfileViewState extends State<ProfileView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                data['Owner Name'],
+                                selfdata.owner_name,
                                 style: TextStyle(
                                   fontFamily: 'Lato',
                                   fontSize: 23.0,
@@ -134,7 +112,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 height: 8.0,
                               ),
                               Text(
-                                data['Email'],
+                                auth.email,
                                 style: TextStyle(
                                   fontFamily: 'Lato',
                                   color: Colors.blueGrey[200],
@@ -147,10 +125,10 @@ class _ProfileViewState extends State<ProfileView> {
                             children: [
                               CircleAvatar(
                                 radius: 35.0,
-                                backgroundImage: data['url'] == null
+                                backgroundImage: selfdata.url == null
                                     ? NetworkImage(
                                         'https://image.cnbcfm.com/api/v1/image/105773439-1551717349171rtx6p9uc.jpg?v=1551717410')
-                                    : NetworkImage(data['url']),
+                                    : NetworkImage(selfdata.url),
                               ),
                               FlatButton.icon(
                                 onPressed: () {
@@ -197,7 +175,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       SizedBox(
                                         width: 20.0,
                                       ),
-                                      Text(data['Shop Name']),
+                                      Text(selfdata.shopName),
                                     ],
                                   ),
                                   SizedBox(
@@ -209,7 +187,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       SizedBox(
                                         width: 20.0,
                                       ),
-                                      Text(data['Capacity']),
+                                      Text('${selfdata.capacity}'),
                                     ],
                                   ),
                                   SizedBox(
@@ -222,7 +200,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         width: 20.0,
                                       ),
                                       Flexible(
-                                        child: Text(data['Address']),
+                                        child: Text(selfdata.mess_address),
                                       )
                                     ],
                                   ),
@@ -236,7 +214,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         width: 20.0,
                                       ),
                                       Text(
-                                          '${data['Lunch Begining']} - ${data['Lunch End']}'),
+                                          '${selfdata.lunch_begin} - ${selfdata.lunch_end}'),
                                     ],
                                   ),
                                   SizedBox(
@@ -289,12 +267,5 @@ class _ProfileViewState extends State<ProfileView> {
               ),
             ),
           );
-        }
-
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
   }
 }

@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 
 class Profile extends StatefulWidget {
   static const routeName = '/profile';
@@ -16,7 +17,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   int step = 1;
-  bool _isopen = false;
+  bool _isopen = false, _getlocation = false;
   bool _ismonthly = false;
   String _servicetype = 'Mess';
   Map<int, String> typeService = {
@@ -28,10 +29,9 @@ class _ProfileState extends State<Profile> {
   bool issaved = false;
   String dropdownValue = 'KIET College';
   Map<String, dynamic> _personal;
-  @override
-  Widget build(BuildContext context) {
-    Map<String, dynamic> _initialdata = {
-      'Landmark': dropdownValue,
+  Position position;
+  Map<String, dynamic> _initialdata = {
+      'Landmark': 'KIET College',
       'shop_name': '',
       'address': '',
       'fssai': '',
@@ -41,6 +41,10 @@ class _ProfileState extends State<Profile> {
       'lunch_end': '',
       'dinner_start': '',
       'dinner_end': '',
+      'note1': null,
+      'note2': null,
+      'note3': null,
+      'note4': null,
     };
     Map<String, dynamic> _initialdata2 = {
       'Name': '',
@@ -50,8 +54,12 @@ class _ProfileState extends State<Profile> {
       'city': '',
       'pincode': '',
     };
+    
     final _form1key = GlobalKey<FormState>();
     final _form2key = GlobalKey<FormState>();
+  @override
+  Widget build(BuildContext context) {
+    
     Future<void> submit() async {
       if (!_form1key.currentState.validate())
         print('invalid');
@@ -74,17 +82,14 @@ class _ProfileState extends State<Profile> {
         _form2key.currentState.save();
         print(_initialdata);
         issaved = await Provider.of<Auth>(context, listen: false).addpersonal(
-            _initialdata, _personal, _servicetype, _isopen, _ismonthly);
-      }
-      if (issaved) {
-        Navigator.of(context).pop();
+            _initialdata, _personal, _servicetype, _isopen, _ismonthly,position,pickedimage);
       }
     }
 
     void _pickImage() async {
       final pickedImageFile = await ImagePicker().getImage(
         source: ImageSource.camera,
-        imageQuality: 50,
+        imageQuality: 10,
         maxWidth: 150,
       );
       setState(() {
@@ -92,6 +97,30 @@ class _ProfileState extends State<Profile> {
       });
     }
 
+  Future<Position> _determinePosition() async {
+  bool serviceEnabled;
+  LocationPermission permission;
+
+  serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  if (!serviceEnabled) {
+    return Future.error('Location services are disabled.');
+  }
+
+  permission = await Geolocator.checkPermission();
+  if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+        'Location permissions are permanently denied, we cannot request permissions.');
+    } 
+
+    if (permission == LocationPermission.denied) {
+      return Future.error(
+          'Location permissions are denied');
+    }
+  }
+  return await Geolocator.getCurrentPosition();
+  }
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -120,6 +149,7 @@ class _ProfileState extends State<Profile> {
                           icon: Icon(Icons.person),
                           border: OutlineInputBorder(),
                         ),
+                        textCapitalization: TextCapitalization.words,
                         validator: (value) {
                           if (value.isEmpty) return 'Required';
                         },
@@ -146,6 +176,7 @@ class _ProfileState extends State<Profile> {
                         validator: (value) {
                           if (value.isEmpty) return 'Required';
                         },
+                        textCapitalization: TextCapitalization.words,
                         onSaved: (val) {
                           print(val);
                           setState(() {
@@ -194,6 +225,7 @@ class _ProfileState extends State<Profile> {
                             _initialdata2['city'] = val;
                           });
                         },
+                        textCapitalization: TextCapitalization.words,
                       ),
                       SizedBox(
                         height: 12,
@@ -224,6 +256,7 @@ class _ProfileState extends State<Profile> {
                         initialValue: _initialdata2['phone'],
                         maxLength: 10,
                         //focusNode: nodes[6],
+                        keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           labelText: 'Phone No.',
                           icon: Icon(Icons.phone),
@@ -263,15 +296,16 @@ class _ProfileState extends State<Profile> {
                       ),
                       pickedimage != null
                           ? Center(
-                              child: CircleAvatar(
-                                radius: 40,
-                                child: Image.file(pickedimage),
+                            child: ClipOval(
+                                // backgroundImage:
+                                //     NetworkImage(document.data()['Upload Link']),
+                                child: Image.file(pickedimage, width: 80, height: 80,fit: BoxFit.cover,),
                               ),
-                            )
+                          )
                           : Center(
                               child: CircleAvatar(
                                 radius: 40,
-                                child: Text('d'),
+                                child: Text('Update'),
                               ),
                             ),
                       Center(
@@ -318,6 +352,7 @@ class _ProfileState extends State<Profile> {
                       ),
                       TextFormField(
                         initialValue: _initialdata['shop_name'],
+                        textCapitalization: TextCapitalization.words,
                         decoration: InputDecoration(
                           labelText: 'Shop Name',
                           icon: Icon(Icons.add_business),
@@ -337,6 +372,7 @@ class _ProfileState extends State<Profile> {
                       TextFormField(
                         initialValue: _initialdata['address'],
                         //focusNode: nodes[0],
+                        textCapitalization: TextCapitalization.words,
                         decoration: InputDecoration(
                           labelText: 'Address',
                           icon: Icon(Icons.add_location_sharp),
@@ -357,6 +393,7 @@ class _ProfileState extends State<Profile> {
                       TextFormField(
                         initialValue: _initialdata['fssai'],
                         //focusNode: nodes[3],
+                        textCapitalization: TextCapitalization.words,
                         decoration: InputDecoration(
                           labelText: 'FSSAI No.',
                           icon: Icon(Icons.confirmation_num),
@@ -374,6 +411,7 @@ class _ProfileState extends State<Profile> {
                       ),
                       TextFormField(
                         initialValue: _initialdata['gst'],
+                        textCapitalization: TextCapitalization.characters,
                         decoration: InputDecoration(
                           labelText: 'GST No.',
                           icon: Icon(Icons.format_list_numbered_outlined),
@@ -414,12 +452,12 @@ class _ProfileState extends State<Profile> {
                           Text(
                             'Service Type',
                             style: TextStyle(
-                              fontSize: 18.0,
+                              fontSize: 14.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           ToggleSwitch(
-                            minHeight: 40.0,
+                            minHeight: 30.0,
                             fontSize: 16.0,
                             cornerRadius: 20.0,
                             initialLabelIndex: 0,
@@ -429,7 +467,8 @@ class _ProfileState extends State<Profile> {
                             inactiveFgColor: Colors.white,
                             labels: ['Mess', 'Tifin', 'Both'],
                             onToggle: (index) {
-                              _servicetype = typeService[index + 1];
+                              _servicetype = typeService[index];
+                              
                             },
                           ),
                         ],
@@ -443,12 +482,13 @@ class _ProfileState extends State<Profile> {
                           Text(
                             'Whole day Open',
                             style: TextStyle(
-                              fontSize: 18.0,
+                              fontSize: 14.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           ToggleSwitch(
                             minWidth: 108.0,
+                            minHeight: 30,
                             cornerRadius: 20.0,
                             activeBgColor: Theme.of(context).primaryColor,
                             activeFgColor: Colors.white,
@@ -474,13 +514,14 @@ class _ProfileState extends State<Profile> {
                           Text(
                             'Monthly Plan',
                             style: TextStyle(
-                              fontSize: 18.0,
+                              fontSize: 14.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           ToggleSwitch(
                             minWidth: 108.0,
                             cornerRadius: 20.0,
+                            minHeight: 30,
                             activeBgColor: Theme.of(context).primaryColor,
                             activeFgColor: Colors.white,
                             inactiveBgColor: Colors.grey,
@@ -571,6 +612,98 @@ class _ProfileState extends State<Profile> {
                       ),
                       SizedBox(
                         height: 12,
+                      ),
+                      Divider1(
+                        title: 'Shop Coordinates',
+                      ),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            'Get Current Location',
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Switch(
+                            value: _getlocation, 
+                            onChanged: (value)async{
+                              setState(() {
+                                _getlocation = value;
+                                
+                              });
+                              position = await _determinePosition();
+                              print(position.latitude);
+                              print(position.longitude);
+                            }),
+                        ],
+                      ),
+                            SizedBox(height:12),
+                            Divider1(title:'Notes'),
+                            SizedBox(height:12),
+                            
+                      TextFormField(
+                        initialValue: _initialdata['note1'],
+                        textCapitalization: TextCapitalization.words,
+                        maxLength: 50,
+                        
+                        decoration: InputDecoration(
+                          labelText: 'Note 1',
+                          //icon: Icon(Icons.add_business),
+                          border: OutlineInputBorder(),
+                        ),
+                        onSaved: (val) {
+                          _initialdata['note1'] = val;
+                        },
+                      ),      SizedBox(height:12),
+                            
+                      TextFormField(
+                        initialValue: _initialdata['note2'],
+                        textCapitalization: TextCapitalization.words,
+                        maxLength: 50,
+                        
+                        decoration: InputDecoration(
+                          labelText: 'Note 2',
+                          //icon: Icon(Icons.add_business),
+                          border: OutlineInputBorder(),
+                        ),
+                        onSaved: (val) {
+                          _initialdata['note2'] = val;
+                        },
+                      ),      SizedBox(height:12),
+                            
+                      TextFormField(
+                        initialValue: _initialdata['note3'],
+                        textCapitalization: TextCapitalization.words,
+                        maxLength: 50,
+                        
+                        decoration: InputDecoration(
+                          labelText: 'Note 3',
+                          //icon: Icon(Icons.add_business),
+                          border: OutlineInputBorder(),
+                        ),
+                        onSaved: (val) {
+                          _initialdata['note3'] = val;
+                        },
+                      ),      SizedBox(height:12),
+                            
+                      TextFormField(
+                        initialValue: _initialdata['note4'],
+                        textCapitalization: TextCapitalization.words,
+                        maxLength: 50,
+                        
+                        decoration: InputDecoration(
+                          labelText: 'Note 4',
+                          //icon: Icon(Icons.add_business),
+                          border: OutlineInputBorder(),
+                        ),
+                        onSaved: (val) {
+                          _initialdata['note4'] = val;
+                        },
                       ),
                       Container(
                         width: double.infinity,

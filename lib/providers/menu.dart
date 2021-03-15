@@ -1,3 +1,4 @@
+import 'package:Meeles_Partner/components/globalvariables.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -60,9 +61,7 @@ class Menu with ChangeNotifier {
   }
 
   Future<bool> addmenu(data, time) async {
-    // String date = new DateTime.now().toString();
-    print(mealtime);
-    print(data);
+    data.addAll({'Prebook Time': time, 'Area': selfdata.mess_landmark, 'url': 'https://firebasestorage.googleapis.com/v0/b/meeles-786110.appspot.com/o/meal_images%2Fimage_picker1381636990.jpg?alt=media&token=8ddc1472-9c52-46a0-b315-33f518662a90'});
     await menuObject
         .collection('Mess')
         .doc(auth.currentUser.email)
@@ -70,21 +69,25 @@ class Menu with ChangeNotifier {
         .doc('Menu')
         .collection(weekday)
         .doc(data['type'])
-        .set({
-      'Item1': data['item1'],
-      'Item2': data['item2'],
-      'Item3': data['item3'],
-      'Item4': data['item4'],
-      'Roti Quantity': data['roti'],
-      'Rice Type': data['rice'],
-      'Desert': data['desert'],
-      'Price': data['price'],
-      'type': data['type'],
-      'Food_Type': data['thali_type'],
-      'Seats': data['seats'],
-      'Instant': data['instant'],
-      'Prebook Time': time,
-    }).then((_) {
+        .set(
+    //       {
+    //   'Item1': data['Item1'],
+    //   'Item2': data['Item2'],
+    //   'Item3': data['Item3'],
+    //   'Item4': data['Item4'],
+    //   'Roti Quantity': data['Roti Quantity'],
+    //   'Rice Type': data['rice'],
+    //   'Desert': data['desert'],
+    //   'Price': data['price'],
+    //   'type': data['type'],
+    //   'Food_Type': data['thali_type'],
+    //   'Seats': data['seats'],
+    //   'Instant': data['instant'],
+    //   'Prebook Time': time,
+    //   'Area': selfdata.mess_landmark,
+    // }
+    data
+    ).then((_) {
       return true;
     }).catchError((e) {
       print(e);

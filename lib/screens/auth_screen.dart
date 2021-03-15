@@ -36,7 +36,7 @@ class _AuthScreenState extends State<AuthScreen> {
       } else {
         await Provider.of<Auth>(context, listen: false)
             .authsignup(email, password);
-        Navigator.of(context).pushNamed(Profile.routeName);
+        //Navigator.of(context).pushNamed(Profile.routeName);
       }
     } on PlatformException catch (err) {
       var message = "An Error occured, Please Check your Credentials";
@@ -85,7 +85,8 @@ class _AuthScreenState extends State<AuthScreen> {
         ),
       ),
       body: Center(
-        child: Card(
+        child: AnimatedContainer(
+          duration: Duration(seconds: 1),
           color: kwhiteAlternateColor,
           margin: EdgeInsets.all(20),
           child: SingleChildScrollView(

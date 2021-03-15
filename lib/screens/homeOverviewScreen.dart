@@ -1,3 +1,4 @@
+import 'package:Meeles_Partner/helpermethods/helpermethods.dart';
 import 'package:flutter/material.dart';
 import 'package:Meeles_Partner/constants/colorConstants.dart';
 import 'package:Meeles_Partner/providers/screen.dart';
@@ -5,7 +6,14 @@ import 'package:provider/provider.dart';
 import '../widgets/bottomNavigationBarHomePage.dart';
 import '../widgets/homeScreenDrawer.dart';
 
-class HomepageOverviewScreen extends StatelessWidget {
+class HomepageOverviewScreen extends StatefulWidget {
+  static const routeName = '/homepageoverviewscreen';
+
+  @override
+  _HomepageOverviewScreenState createState() => _HomepageOverviewScreenState();
+}
+
+class _HomepageOverviewScreenState extends State<HomepageOverviewScreen> {
   void handleClick(String value) {
     switch (value) {
       case 'Logout':
@@ -14,8 +22,12 @@ class HomepageOverviewScreen extends StatelessWidget {
         break;
     }
   }
+  @mustCallSuper
+  void initState(){
+    print('State entered');
+    HelperMethod().currentMessinfo();
+  }
 
-  static const routeName = '/homepageoverviewscreen';
   @override
   Widget build(BuildContext context) {
     String titlename = Provider.of<Screen>(context).gettitle;

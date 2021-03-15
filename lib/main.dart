@@ -1,3 +1,4 @@
+import 'package:Meeles_Partner/helpermethods/helpermethods.dart';
 import 'package:flutter/material.dart';
 import 'package:Meeles_Partner/providers/screen.dart';
 import 'package:Meeles_Partner/screens/bookingdetails_screen.dart';
@@ -15,7 +16,6 @@ import 'package:firebase_core/firebase_core.dart';
 import './screens/updatemenu_screen.dart';
 import './providers/menu.dart';
 import './screens/menuview_screen.dart';
-import './screens/registerScreen.dart';
 import './screens/registerprofile_screen.dart';
 import './screens/aboutus_screen.dart';
 
@@ -26,6 +26,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -48,11 +49,10 @@ class MyApp extends StatelessWidget {
               appBarTheme: AppBarTheme(
                   centerTitle: true, elevation: 3.0, textTheme: ktextTheme),
             ),
-            home: auth.isAuth ? HomepageOverviewScreen() : AuthScreen(),
+            home: auth.isAuth ? auth.isregisteration ? HomepageOverviewScreen() : Profile() : AuthScreen(),
             routes: {
               Updatemenu.routeName: (ctx) => Updatemenu(),
               CardVariant.routeName: (ctx) => CardVariant(),
-              Registration.routeName: (ctx) => Registration(),
               HomepageOverviewScreen.routeName: (ctx) =>
                   HomepageOverviewScreen(),
               AboutUs.routeName: (ctx) => AboutUs(),

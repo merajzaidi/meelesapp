@@ -1,3 +1,4 @@
+import 'package:Meeles_Partner/helpermethods/helpermethods.dart';
 import 'package:flutter/material.dart';
 import 'package:Meeles_Partner/screens/updatemenu_screen.dart';
 import 'package:Meeles_Partner/widgets/menu.dart';
@@ -11,6 +12,7 @@ class CardVariant extends StatelessWidget {
   // static const id = 'CardVariant';
   // CollectionReference daymenu;
   String getday;
+  
   @override
   Widget build(BuildContext context) {
     // final heightOne = MediaQuery.of(context).size.height;
@@ -33,7 +35,7 @@ class CardVariant extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pushNamed(Updatemenu.routeName);
+          Navigator.of(context).pushNamed(Updatemenu.routeName, arguments: {'havedata' : false});
         },
         child: Icon(Icons.add),
         backgroundColor: Theme.of(context).primaryColor,

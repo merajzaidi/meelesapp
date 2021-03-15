@@ -112,71 +112,71 @@ class _MenuWidgetState extends State<MenuWidget> {
                 children: <Widget>[
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).pushNamed(Updatemenu.routeName);
+                      Navigator.of(context).pushNamed(Updatemenu.routeName, arguments: {'havedata': false});
                     },
-                    child: Card(
-                      elevation: 8.0,
-                      child: Container(
-                        padding: EdgeInsets.all(10.0),
-                        height: heightOne * 0.33,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Center(
-                              child: Chip(
-                                label: Padding(
-                                  padding: const EdgeInsets.only(bottom: 4.0),
-                                  child: Text(
-                                    'Lunch',
-                                    style: TextStyle(
-                                      fontFamily: 'Lato',
-                                      fontSize: 22.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 50.0,
-                            ),
-                            Center(
-                              child: Text(
-                                'Create Your Menu',
-                                style: TextStyle(
-                                  fontFamily: 'Lato',
-                                  fontSize: 14.0,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 50.0,
-                            ),
-                            RaisedButton(
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .pushNamed(Updatemenu.routeName);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(12.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [BoxShadow(color: Colors.grey ),]),
+                      padding: EdgeInsets.all(10.0),
+                      height: heightOne * 0.33,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Center(
+                            child: Chip(
+                              label: Padding(
+                                padding: const EdgeInsets.only(bottom: 4.0),
                                 child: Text(
-                                  'Create',
+                                  'Lunch',
                                   style: TextStyle(
                                     fontFamily: 'Lato',
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w900,
+                                    fontSize: 22.0,
                                   ),
                                 ),
                               ),
-                              color: Theme.of(context).primaryColor,
                             ),
-                          ],
-                        ),
+                          ),
+                          SizedBox(
+                            height: 50.0,
+                          ),
+                          Center(
+                            child: Text(
+                              'Create Your Menu',
+                              style: TextStyle(
+                                fontFamily: 'Lato',
+                                fontSize: 14.0,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 50.0,
+                          ),
+                          RaisedButton(
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pushNamed(Updatemenu.routeName, arguments: {'havedata': false});
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Text(
+                                'Create',
+                                style: TextStyle(
+                                  fontFamily: 'Lato',
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                            ),
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ],
                       ),
                     ),
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).pushNamed(Updatemenu.routeName);
+                      Navigator.of(context).pushNamed(Updatemenu.routeName, arguments: {'havedata': false});
                     },
                     child: Card(
                       elevation: 8.0,
@@ -218,7 +218,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                             RaisedButton(
                               onPressed: () {
                                 Navigator.of(context)
-                                    .pushNamed(Updatemenu.routeName);
+                                    .pushNamed(Updatemenu.routeName, arguments: {'havedata': false});
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(12.0),
@@ -240,12 +240,13 @@ class _MenuWidgetState extends State<MenuWidget> {
                   ),
                 ],
               );
+            
             return ListView(
               children:
                   menushot.data.docs.map((QueryDocumentSnapshot document) {
                 return InkWell(
                   onTap: () {
-                    Navigator.of(context).pushNamed(Updatemenu.routeName);
+                    Navigator.of(context).pushNamed(Updatemenu.routeName,arguments: {'data' :document.data(), 'havedata': true });
                   },
                   child: new Card(
                     elevation: 8.0,
@@ -341,7 +342,7 @@ class _MenuWidgetState extends State<MenuWidget> {
                               RaisedButton(
                                 onPressed: () {
                                   Navigator.of(context)
-                                      .pushNamed(Updatemenu.routeName);
+                                      .pushNamed(Updatemenu.routeName, arguments: {'data' :document.data(), 'havedata': true });
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(12.0),
