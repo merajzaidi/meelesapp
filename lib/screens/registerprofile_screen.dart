@@ -36,7 +36,7 @@ class _ProfileState extends State<Profile> {
       'address': '',
       'fssai': '',
       'gst': '',
-      'capacity': '',
+      'capacity': 0,
       'lunch_start': '',
       'lunch_end': '',
       'dinner_start': '',
@@ -430,6 +430,7 @@ class _ProfileState extends State<Profile> {
                       ),
                       TextFormField(
                         initialValue: _initialdata['capacity'],
+                        keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           labelText: 'Mess Capacity',
                           icon: Icon(Icons.reduce_capacity),

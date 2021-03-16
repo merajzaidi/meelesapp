@@ -1,4 +1,6 @@
 import 'package:Meeles_Partner/helpermethods/helpermethods.dart';
+import 'package:Meeles_Partner/screens/loginscreen.dart';
+import 'package:Meeles_Partner/screens/otpScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:Meeles_Partner/providers/screen.dart';
 import 'package:Meeles_Partner/screens/bookingdetails_screen.dart';
@@ -49,7 +51,7 @@ class MyApp extends StatelessWidget {
               appBarTheme: AppBarTheme(
                   centerTitle: true, elevation: 3.0, textTheme: ktextTheme),
             ),
-            home: auth.isAuth ? auth.isregisteration ? HomepageOverviewScreen() : Profile() : AuthScreen(),
+            home: auth.isAuth ? auth.isregisteration ? LoginScreen() : Profile() : AuthScreen(),
             routes: {
               Updatemenu.routeName: (ctx) => Updatemenu(),
               CardVariant.routeName: (ctx) => CardVariant(),
