@@ -10,7 +10,7 @@ class Auth with ChangeNotifier {
   UserCredential authresult;
   bool isregister = true;
   Map<String, dynamic> data;
-  var user;
+  var user,phone;
   bool created = true;
   FirebaseAuth auth = FirebaseAuth.instance;
   CollectionReference getmenu = FirebaseFirestore.instance.collection('Mess');
@@ -21,6 +21,12 @@ class Auth with ChangeNotifier {
         .signInWithEmailAndPassword(email: email, password: password);
     user = auth.currentUser;
     print(authresult);
+    notifyListeners();
+    return null;
+  }
+  Future<void> phonelogin(PhoneAuthCredential credential) async {
+    await FirebaseAuth.instance.signInWithCredential(credential);
+    ///name = FirebaseAuth.instance.currentUser.displayName;
     notifyListeners();
     return null;
   }
@@ -90,7 +96,7 @@ class Auth with ChangeNotifier {
     print(data2);
     print(data);
     print('$service  $isopen  $ismonthly');
-    await adddata.collection('Mess').doc(auth.currentUser.email).set({
+    await adddata.collection('Mess').doc(auth.currentUser.phoneNumber).set({
       'Owner Name': data2['Name'],
       'Permanent Address': data2['permanent_address'],
       'Pincode': data2['pincode'],
@@ -158,5 +164,12 @@ class Auth with ChangeNotifier {
     if(auth.currentUser.displayName =='' || auth.currentUser.displayName == null)
       return false;
     else return true;
+  }
+  void messphone(ph){
+    phone = ph;
+    notifyListeners();
+  }
+  get messmobile {
+    return phone;
   }
 }
