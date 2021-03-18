@@ -102,14 +102,14 @@ class Auth with ChangeNotifier {
       'Pincode': data2['pincode'],
       'City': data2['city'],
       'Landmark': data['Landmark'],
-      'Phone no.': data2['phone'],
+      'Phone no.': auth.currentUser.phoneNumber,
       'Adhar Card': data2['adharcard'],
       'Shop Name': data['shop_name'],
       'Address': data['address'],
       'FSSAI NO': data['fssai'],
       'GST NO': data['gst'],
       'Capacity': data['capacity'],
-      'Email': auth.currentUser.email,
+      'Email': data2['Email'],
       'Service Type': service,
       'Open Whole Day': isopen,
       'Monthly Subscription': ismonthly,
@@ -126,7 +126,7 @@ class Auth with ChangeNotifier {
       'Verified': false,
       'url': url,
     }).then((value) async {
-      await auth.currentUser.updateProfile(displayName: data2['Name']);
+      await auth.currentUser.updateProfile(displayName: data2['Name'],);
       return true;
     }).catchError((error) {
       print(error);
@@ -139,7 +139,7 @@ class Auth with ChangeNotifier {
   Future<void> addmenu(String val) async {
     await adddata
         .collection('Mess')
-        .doc(auth.currentUser.email)
+        .doc(auth.currentUser.phoneNumber)
         .collection('Other Details')
         .doc('Menu')
         .set({

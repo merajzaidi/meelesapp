@@ -64,7 +64,7 @@ class Menu with ChangeNotifier {
     data.addAll({'Prebook Time': time, 'Area': selfdata.mess_landmark, 'url': 'https://firebasestorage.googleapis.com/v0/b/meeles-786110.appspot.com/o/meal_images%2Fimage_picker1381636990.jpg?alt=media&token=8ddc1472-9c52-46a0-b315-33f518662a90'});
     await menuObject
         .collection('Mess')
-        .doc(auth.currentUser.email)
+        .doc(auth.currentUser.phoneNumber)
         .collection('Other Details')
         .doc('Menu')
         .collection(weekday)
@@ -105,7 +105,7 @@ class Menu with ChangeNotifier {
     bool isfind = true;
     var details = FirebaseFirestore.instance
         .collection('Mess')
-        .doc(auth.currentUser.email)
+        .doc(auth.currentUser.phoneNumber)
         .collection('Booking')
         .doc(DateFormat.yMMMMEEEEd().format(DateTime.now()));
     // FirebaseFirestore.instance

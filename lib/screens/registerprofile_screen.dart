@@ -49,7 +49,7 @@ class _ProfileState extends State<Profile> {
     Map<String, dynamic> _initialdata2 = {
       'Name': '',
       'permanent_address': '',
-      'phone': '',
+      'Email': '',
       'adharcard': '',
       'city': '',
       'pincode': '',
@@ -162,9 +162,6 @@ class _ProfileState extends State<Profile> {
                       SizedBox(
                         height: 12,
                       ),
-                      SizedBox(
-                        height: 12,
-                      ),
                       TextFormField(
                         initialValue: _initialdata2['permanent_address'],
                         //focusNode: nodes[0],
@@ -253,21 +250,22 @@ class _ProfileState extends State<Profile> {
                         height: 12,
                       ),
                       TextFormField(
-                        initialValue: _initialdata2['phone'],
-                        maxLength: 10,
+                        initialValue: _initialdata2['Email'],
+                        
                         //focusNode: nodes[6],
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
-                          labelText: 'Phone No.',
+                          labelText: 'Email Id',
                           icon: Icon(Icons.phone),
                           border: OutlineInputBorder(),
                         ),
                         validator: (value) {
                           if (value.isEmpty) return 'Required';
+                          if(!value.contains('@')) return 'Invalid Email';
                         },
                         onSaved: (val) {
                           setState(() {
-                            _initialdata2['phone'] = val;
+                            _initialdata2['Email'] = val;
                           });
                         },
                       ),
@@ -429,7 +427,7 @@ class _ProfileState extends State<Profile> {
                         height: 12,
                       ),
                       TextFormField(
-                        initialValue: _initialdata['capacity'],
+                        initialValue: _initialdata['capacity'].toString(),
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           labelText: 'Mess Capacity',

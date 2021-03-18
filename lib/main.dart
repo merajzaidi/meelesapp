@@ -12,7 +12,6 @@ import 'package:provider/provider.dart';
 import './screens/homeOverviewScreen.dart';
 import './constants/colorConstants.dart';
 import 'constants/textThemeConstants.dart';
-import './screens/auth_screen.dart';
 import './providers/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import './screens/updatemenu_screen.dart';
@@ -51,7 +50,7 @@ class MyApp extends StatelessWidget {
               appBarTheme: AppBarTheme(
                   centerTitle: true, elevation: 3.0, textTheme: ktextTheme),
             ),
-            home: auth.isAuth ? auth.isregisteration ? LoginScreen() : Profile() : AuthScreen(),
+            home: auth.isAuth ? auth.isregisteration ? HomepageOverviewScreen() : Profile() : LoginScreen(),
             routes: {
               Updatemenu.routeName: (ctx) => Updatemenu(),
               CardVariant.routeName: (ctx) => CardVariant(),

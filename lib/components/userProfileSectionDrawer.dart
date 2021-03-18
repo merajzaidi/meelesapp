@@ -16,7 +16,7 @@ class UserProfileSectionDrawer extends StatelessWidget {
             fontWeight: FontWeight.w500),
       ),
       accountEmail: Text(
-        user.email,
+        user.phoneNumber,
         style: const TextStyle(
             color: Color(0xff213e3b),
             fontSize: 14.0,

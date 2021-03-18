@@ -64,6 +64,8 @@ class _UpdatemenuState extends State<Updatemenu> {
     print(args);
     if(args['havedata']){
       _initialdata = args['data'];
+      dropdownValue = args['data']['type'];
+      thalitype = args['data']['Food_Type'];
     }
     print(_initialdata);
     return Scaffold(

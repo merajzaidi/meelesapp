@@ -42,7 +42,7 @@ class _ProfileViewState extends State<ProfileView> {
     final picker = ImagePicker();
     String _uploadFileURL;
     DocumentReference imgColRef =
-        FirebaseFirestore.instance.collection('Mess').doc(auth.email);
+        FirebaseFirestore.instance.collection('Mess').doc(auth.phoneNumber);
 
     Future<void> retrieveLostData() async {
       final LostData response = await picker.getLostData();
@@ -112,7 +112,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 height: 8.0,
                               ),
                               Text(
-                                auth.email,
+                                auth.phoneNumber,
                                 style: TextStyle(
                                   fontFamily: 'Lato',
                                   color: Colors.blueGrey[200],

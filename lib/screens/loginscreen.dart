@@ -1,6 +1,8 @@
 import 'package:Meeles_Partner/providers/auth.dart';
 import 'package:Meeles_Partner/screens/otpScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pinput/pin_put/pin_put.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -9,13 +11,172 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _key = GlobalKey<FormState>();
-  TextEditingController phone = new TextEditingController();
+  BoxDecoration get _pinPutDecoration {
+    return BoxDecoration(
+      border: Border.all(color: Colors.black),
+      borderRadius: BorderRadius.circular(15.0),
+    );
+  }  
+  final _key = GlobalKey<FormState>(), _key2 = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  TextEditingController phone = new TextEditingController(),_pinPutController = new TextEditingController() ;
+  FocusNode _pinPutFocusNode = new FocusNode();
+  var id;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    void setFocus(context){
+      FocusScope.of(context).requestFocus(_pinPutFocusNode);
+    }
+
+    Future otp(_phonenumber, context) async {
+      String code;
+      await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: '+91${_phonenumber}',
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          print('verification');
+          await Provider.of<Auth>(context, listen: false).phonelogin(credential);
+          Navigator.of(context).pop();
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          if (e.code == 'invalid-phone-number') {
+            _scaffoldKey.currentState.showSnackBar(
+              SnackBar(
+                content: Text('Invalid Phone Number'),
+                backgroundColor: Colors.red,
+              ),
+            );
+            Navigator.of(context).pop();
+          }
+        },
+        codeSent: (String verificationId, int resendToken) async {
+          print('entered');
+          setState(() {
+            id = verificationId;
+          });
+          print(id);
+        },
+        timeout: const Duration(seconds: 120),
+        codeAutoRetrievalTimeout: (String verificationId) {
+          _scaffoldKey.currentState.showSnackBar(
+            SnackBar(
+              content: Text('Timeout'),
+              backgroundColor: Colors.red,
+            ),
+          );
+          Navigator.of(context).pop();
+        },
+      );
+      await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            setFocus(context);
+            return AlertDialog(
+              title: Text('Enter your OTP'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                      'We have sent you an OTP on your Mobile No. ${_phonenumber}'),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  PinPut(
+                    key: _key2,
+                    fieldsCount: 6,
+                    onChanged: (cd){
+                      code = cd;
+                    },
+                    validator: (val) {
+                      if (val.length != 6) return 'Enter The OTP';
+                    },
+                    textStyle: TextStyle(color: Colors.black),
+                    focusNode: _pinPutFocusNode,
+                    controller: _pinPutController,
+                    submittedFieldDecoration: _pinPutDecoration.copyWith(
+                      borderRadius: BorderRadius.circular(20.0),
+                      border: Border.all(
+                        color: Colors.black,
+                      ),
+                    ),
+                    selectedFieldDecoration: _pinPutDecoration,
+                    followingFieldDecoration: _pinPutDecoration.copyWith(
+                      borderRadius: BorderRadius.circular(5.0),
+                      border: Border.all(
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  
+                ],
+              ),
+              actions: [
+                FlatButton(
+                  onPressed: () async {
+                    print('entered resend');
+                    await FirebaseAuth.instance.verifyPhoneNumber(
+                      phoneNumber: '+91${_phonenumber}',
+                      verificationCompleted:
+                          (PhoneAuthCredential credential) async {
+                        print('verification');
+                        await Provider.of<Auth>(context, listen: false)
+                            .phonelogin(credential);
+                        Navigator.of(context).pop();
+                      },
+                      verificationFailed: (FirebaseAuthException e) {
+                        if (e.code == 'invalid-phone-number') {
+                          print('The provided phone number is not valid.');
+                        }
+                      },
+                      codeSent: (String verificationId, int resendToken) async {
+                        print('entered');
+                        setState(() {
+                          id = verificationId;
+                        });
+                        print(id);
+                      },
+                      timeout: const Duration(seconds: 120),
+                      codeAutoRetrievalTimeout: (String verificationId) {
+                        print('Time-out');
+                      },
+                    );
+                  },
+                  child: Text(
+                    'Resend',
+                    style: TextStyle(fontFamily: 'Lato', color: Colors.blue),
+                  ),
+                ),
+                RaisedButton(
+                  onPressed: () async {
+                     PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
+                      verificationId: id,
+                      smsCode: code,
+                    );
+                    await Provider.of<Auth>(context, listen: false)
+                        .phonelogin(phoneAuthCredential);
+                        FocusScope.of(context).unfocus();
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(
+                    'Verify',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Lato',
+                    ),
+                  ),
+                  color: Colors.black,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                      side: BorderSide(color: Colors.white)),
+                ),
+              ],
+            );
+          });
+    }
+
     return Scaffold(
+      key: _scaffoldKey,
       body: Container(
           height: height,
           width: width,
@@ -51,8 +212,9 @@ class _LoginScreenState extends State<LoginScreen> {
             ElevatedButton(
               onPressed: (){
                 print(phone.text);
-                Provider.of<Auth>(context,listen: false).messphone(phone.text);
-                Navigator.of(context).push(_createRoute());
+                //Provider.of<Auth>(context,listen: false).messphone(phone.text);
+                otp(phone.text, context);
+                //Navigator.of(context).push(_createRoute());
               },
              child: Text('Send OTP'), style: ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor,),),
           ],

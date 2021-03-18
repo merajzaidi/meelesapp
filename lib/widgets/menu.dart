@@ -43,7 +43,7 @@ class _MenuWidgetState extends State<MenuWidget> {
     String _uploadFileURL;
     CollectionReference imgColRef = FirebaseFirestore.instance
         .collection('Mess')
-        .doc(currentuser.email)
+        .doc(currentuser.phoneNumber)
         .collection('Other Details')
         .doc('Menu')
         .collection(widget.getday);
@@ -97,7 +97,7 @@ class _MenuWidgetState extends State<MenuWidget> {
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('Mess')
-              .doc(currentuser.email)
+              .doc(currentuser.phoneNumber)
               .collection('Other Details')
               .doc('Menu')
               .collection(widget.getday)

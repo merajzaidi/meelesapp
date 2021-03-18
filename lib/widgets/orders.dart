@@ -11,7 +11,7 @@ class Orders extends StatelessWidget {
   Widget build(BuildContext context) {
     var obj = FirebaseFirestore.instance
         .collection('Mess')
-        .doc(FirebaseAuth.instance.currentUser.email)
+        .doc(FirebaseAuth.instance.currentUser.phoneNumber)
         .collection('Booking')
         .doc(date);
     var booking = obj.collection(type);

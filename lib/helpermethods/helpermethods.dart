@@ -7,7 +7,7 @@ class HelperMethod {
 
   Future currentMessinfo()async{
     print('Entered Method');
-   DocumentSnapshot data = await obj.collection('Mess').doc(auth.currentUser.email).get().then((value) => value);
+   DocumentSnapshot data = await obj.collection('Mess').doc(auth.currentUser.phoneNumber).get().then((value) => value);
    selfdata = MessDetails.getdata(data);
    print(selfdata.mess_landmark);
   }

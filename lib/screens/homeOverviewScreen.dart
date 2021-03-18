@@ -1,4 +1,5 @@
 import 'package:Meeles_Partner/helpermethods/helpermethods.dart';
+import 'package:Meeles_Partner/providers/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:Meeles_Partner/constants/colorConstants.dart';
 import 'package:Meeles_Partner/providers/screen.dart';
@@ -17,6 +18,7 @@ class _HomepageOverviewScreenState extends State<HomepageOverviewScreen> {
   void handleClick(String value) {
     switch (value) {
       case 'Logout':
+        Provider.of<Auth>(context,listen: false).authlogout();
         break;
       case 'Settings':
         break;

@@ -18,7 +18,7 @@ class MessDetails {
    String note2;
    String note3;
    String note4;
-   int capacity;
+   String capacity;
    bool openForWholeDay;
    bool monthlyPayVariant;
    String url;
